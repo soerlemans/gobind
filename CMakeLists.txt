@@ -9,42 +9,55 @@ project(
   LANGUAGES CXX C
 )
 
-# Set the target variables.
-include(cmake/targets.cmake)
+# Enable FetchContent if required
+include(FetchContent)
 
-# set(TARGET_CROW "crow")
-# add_executable(${TARGET_CROW})
+# Create target.
+set(TARGET_GOBIND "gobind")
 
-set_target_properties(
-  ${TARGET_CROW}
-  PROPERTIES
-  EXPORT_COMPILE_COMMANDS ON
-)
-
-# Configure the compiler.
-include(cmake/compiler.cmake)
-
-# Configure clang-tidy.
-include(cmake/clang-tidy.cmake)
-
-# Add dependencies.
-include(cmake/dependencies.cmake)
-
-# Define src/ as include directory.
-target_include_directories(
-  ${TARGET_CROW_LIB}
-  PUBLIC src/
-)
-
-# Compile sources.
+# Add subdirectories:
 add_subdirectory(src)
-target_link_libraries(
-  ${TARGET_CROW}
-  PUBLIC ${TARGET_CROW_LIB})
 
-# Build tests:
-if(DEFINED CROW_BUILD_TESTS)
-  include(cmake/dependencies/catch2.cmake)
+# Create an alias for better usage
+add_library(
+  ${TARGET_GOBIND}::${TARGET_GOBIND} ALIAS ${TARGET_GOBIND}
+)
 
-  add_subdirectory(tests)
-endif()
+# Set include directories for the library:
+target_include_directories(${TARGET_GOBIND} PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+  )
+
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Define include directories for headers
+target_include_directories(
+  ${TARGET_GOBIND} PUBLIC
+  src/cpp/include
+)
+
+# Export the library for installation
+install(
+  TARGETS gobind
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+
+install(
+  DIRECTORY src/cpp/
+  DESTINATION include/
+)
+
+# For FetchContent use, add these configuration options
+# If you're using FetchContent, this can be included by other projects
+include(GNUInstallDirs)
+
+# Optionally create an exportable config for CMake projects
+install(
+  EXPORT GoBindTarget
+  FILE GoBindConfig.cmake
+  DESTINATION lib/cmake/gobind
+)
