@@ -13,51 +13,63 @@ project(
 include(FetchContent)
 
 # Create target.
-set(TARGET_GOBIND "gobind")
+set(TARGET_GOBIND ${PROJECT_NAME})
+
+# Create an alias for better usage
+add_library(
+  ${TARGET_GOBIND} SHARED
+)
+
+add_library(
+  gobind::gobind ALIAS ${TARGET_GOBIND}
+)
 
 # Add subdirectories:
 add_subdirectory(src)
 
-# Create an alias for better usage
-add_library(
-  ${TARGET_GOBIND}::${TARGET_GOBIND} ALIAS ${TARGET_GOBIND}
-)
-
 # Set include directories for the library:
-target_include_directories(${TARGET_GOBIND} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
-  )
+#target_include_directories(${TARGET_GOBIND} PUBLIC
+#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#    $<INSTALL_INTERFACE:include>
+#)
 
 # Specify the C++ standard
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set_target_properties(
+	${TARGET_GOBIND}
+	PROPERTIES
+	CXX_STANDARD 20
+)
 
 # Define include directories for headers
 target_include_directories(
   ${TARGET_GOBIND} PUBLIC
-  src/cpp/include
+  src/cpp/
 )
 
 # Export the library for installation
-install(
-  TARGETS gobind
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
-
-install(
-  DIRECTORY src/cpp/
-  DESTINATION include/
-)
+#install(
+#  TARGETS gobind
+#  LIBRARY DESTINATION lib
+#  ARCHIVE DESTINATION lib
+#)
+#
+#install(
+#  DIRECTORY src/cpp/
+#  DESTINATION include/
+#)
 
 # For FetchContent use, add these configuration options
 # If you're using FetchContent, this can be included by other projects
-include(GNUInstallDirs)
+#include(GNUInstallDirs)
 
 # Optionally create an exportable config for CMake projects
-install(
-  EXPORT GoBindTarget
-  FILE GoBindConfig.cmake
-  DESTINATION lib/cmake/gobind
-)
+#install(
+#  EXPORT GoBindTarget
+#  FILE GoBindConfig.cmake
+#  DESTINATION lib/cmake/gobind
+#)
+
+# Build examples if specified:
+if(DEFINED GOBIND_EXAMPLES)
+  add_subdirectory(examples)
+endif()

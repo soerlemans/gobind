@@ -5,10 +5,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
+// Constants:
+#define GOLANG_MODULE_MAX_NAME_LENGTH (256)
+
 // Structs:
-struct GolangModule {
-  char m_name[];
-};
+typedef struct {
+  char m_name[GOLANG_MODULE_MAX_NAME_LENGTH];
+} GolangModule;
+
+// Functions:
+GolangModule* golang_module_create(const char* t_module_name);
+void golang_module_free(GolangModule* t_module);
 
 #ifdef __cplusplus
 }
