@@ -8,15 +8,37 @@
  */
 
 // STL Includes:
+#include <iostream>
 #include <string_view>
 
 // Local Includes:
-#include "golang_module.hpp"
+#include "gobind.h"
+#include "macros.h"
 
 // Macros:
-//! Defins a Golang module that
-#define GOBIND_MODULE(t_module_name, t_id) \
-  auto define_gobind_module() -> GolangModule*
+//
+#define GOBIND_INTERNAL_FN(t_name, t_module_name) \
+  GOBIND_CONCAT(gobind_##t_name##_, t_module_name)
+
+/*!
+ * Define a Golang module that can be included from Golang.
+ * This macro constructs two
+ */
+#define GOBIND_MODULE(t_name, t_param)                               \
+  extern "C" {                                                       \
+  void GOBIND_INTERNAL_FN(populate, t_name)(GolangModule * t_param); \
+  GolangModule* GOBIND_INTERNAL_FN(init, t_name)()                   \
+  {                                                                  \
+    GolangModule* module_ptr{nullptr};                               \
+    auto error{golang_module_create(module_ptr, #t_name)};           \
+    auto& [code, msg] = error;                                       \
+    if(code != ERROR_OK) {                                           \
+    }                                                                \
+    GOBIND_INTERNAL_FN(populate, t_name)(module_ptr);                \
+    return module_ptr;                                               \
+  }                                                                  \
+  }                                                                  \
+  extern "C" void GOBIND_INTERNAL_FN(populate, t_name)(GolangModule * t_param)
 
 namespace gobind {
 // Functions:
