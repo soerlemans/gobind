@@ -1,0 +1,34 @@
+@startuml
+
+rectangle "C++" as cpp {
+  rectangle "C++ user code" as cpp_user_code
+  rectangle "C++ gobind module definition" as cpp_gobind_module_def
+  rectangle "gobind.hpp" as cpp_gobind_hpp
+
+  cpp_user_code -> cpp_gobind_module_def
+  cpp_gobind_module_def -> cpp_gobind_hpp
+}
+
+rectangle "C API" as c_api {
+  rectangle "gobind.h" as gobind_h
+  rectangle "GolangModule struct" as golang_mod_struct
+
+  gobind_h -> golang_mod_struct
+}
+
+rectangle "gobind command" as gobind_cmd {
+  rectangle "Read shared library created with gobind" as gobind_shared_lib
+  rectangle "Generate Golang module from GolangModule struct" as gobind_gen
+
+  gobind_shared_lib -> gobind_gen
+}
+
+rectangle "Golang module" as golang_mod {
+  rectangle "Use Golang module in Golang project"
+}
+
+cpp -d-> c_api
+c_api -d-> gobind_cmd
+gobind_cmd -d-> golang_mod
+
+@enduml

@@ -4,30 +4,8 @@
 #include <cctype>
 #include <string_view>
 
-namespace {
-// TODO: Maybe place this function in another header so.
-// So that we can verify the module name at compile time.
-constexpr auto valid_module_name(const std::string_view t_module_name) -> bool
-{
-  bool valid{true};
-
-  constexpr auto underscore{'_'};
-
-  // Module names must be valid ASCII.
-  for(const auto ch : t_module_name) {
-    const auto is_alpha_lower{std::isalpha(ch) && std::islower(ch)};
-    const auto is_underscore{ch == underscore};
-
-    // Only lowercase alpha numerics or underscores are allowed.
-    if(!is_alpha_lower || !is_underscore) {
-      valid = false;
-      break;
-    }
-  }
-
-  return valid;
-}
-} // namespace
+// Local Includes:
+#include "golang_module_factory.hpp"
 
 // Functions:
 Error golang_module_create(GolangModule* t_module, const char* t_name)
