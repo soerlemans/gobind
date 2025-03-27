@@ -20,7 +20,7 @@ Using Gobind cli.
 ## Development
 So how does the inner workings of the library work?
 So the library has the following process:
-[Block diagram of how the library works.](assets/block_diagram.png)
+![Block diagram of how the library works.](assets/block_diagram.png)
 
 ### Step 1: C++
 First in your C++ project you define a module by including `gobind.hpp`.
