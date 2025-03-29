@@ -9,11 +9,13 @@
  * This must be C compatible as Golang only has C compatibility via Cgo.
  */
 
-#include "error.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+// Local Includes:
+#include "error.h"
+#include "golang_function_table.h"
 
 // Constants:
 #define GOLANG_MODULE_MAX_NAME_LENGTH (256)
@@ -23,13 +25,14 @@ extern "C" {
 // Structs:
 typedef struct {
   char m_name[GOLANG_MODULE_MAX_NAME_LENGTH];
+  GolangFunctionTable* m_fn_table;
 } GolangModule;
 
 // Functions:
-Error golang_module_create(GolangModule* t_module, const char* t_name);
+Error golang_module_create(GolangModule** t_module, const char* t_name);
 // Error golang_module_add_function(GolangModule* t_module, );
 // Error golang_module_add_struct(GolangModule* t_module, );
-void golang_module_free(GolangModule* t_module);
+void golang_module_free(GolangModule** t_module);
 
 #ifdef __cplusplus
 }

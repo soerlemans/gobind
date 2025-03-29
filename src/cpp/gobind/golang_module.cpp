@@ -8,10 +8,12 @@
 #include "golang_module_factory.hpp"
 
 // Functions:
-Error golang_module_create(GolangModule* t_module, const char* t_name)
+Error golang_module_create(GolangModule** t_module, const char* t_name)
 {
+  auto& module_{*t_module};
+
   Error error{ERROR_FAIL, nullptr};
-  t_module = new GolangModule{};
+  module_ = new GolangModule{};
 
   const std::string_view name{t_name};
   if(!gobind::valid_module_name(name)) {
@@ -23,14 +25,16 @@ Error golang_module_create(GolangModule* t_module, const char* t_name)
   return error;
 
 cleanup:
-  golang_module_free(t_module);
+  golang_module_free(&module_);
 
   return error;
 }
 
-void golang_module_free(GolangModule* t_module)
+void golang_module_free(GolangModule** t_module)
 {
-  delete t_module;
+  auto& module_{*t_module};
 
-  t_module = nullptr;
+  delete module_;
+
+  module_ = nullptr;
 }

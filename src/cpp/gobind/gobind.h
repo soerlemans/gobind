@@ -8,11 +8,12 @@
  * The headers suffixed with .h have a C API but a C++ implementation.
  */
 
-#include "golang_module.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+// Local Includes:
+#include "golang_module.h"
 
 // Functions:
 //! Very important function that returns all modules defined

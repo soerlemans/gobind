@@ -26,9 +26,9 @@ class GolangModuleFactory {
   public:
   GolangModuleFactory() = default;
 
+  // Methods:
   auto create_module(const char* t_name) -> Error;
 
-  // TODO: Overload the hell out of def.
   template<typename R, typename... Args>
   auto def(std::string_view t_name, R (*t_fn)(Args...)) -> Error;
 
