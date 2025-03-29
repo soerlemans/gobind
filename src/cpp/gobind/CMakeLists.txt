@@ -1,6 +1,7 @@
 # Add source files
 target_sources(${TARGET_GOBIND} PRIVATE
+  error.cpp
   gobind.cpp
   golang_module.cpp
-  error.cpp
+  golang_module_factory.cpp
 )

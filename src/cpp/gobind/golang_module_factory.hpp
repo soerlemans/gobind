@@ -10,6 +10,8 @@
  */
 
 // STL Includes:
+#include <cctype>
+#include <functional>
 #include <string_view>
 
 // Local Includes:
@@ -24,20 +26,23 @@ class GolangModuleFactory {
   public:
   GolangModuleFactory() = default;
 
-  auto create_module(std::string_view t_name) -> Error;
+  auto create_module(const char* t_name) -> Error;
 
   // TODO: Overload the hell out of def.
-  // auto def(std::string_view t_name) -> Error;
+  template<typename R, typename... Args>
+  auto def(std::string_view t_name, R (*t_fn)(Args...)) -> Error;
 
+  //! Create the @ref GolangModule with all the size calculations in place.
+  auto compile_module() -> void;
   auto get_module() -> GolangModule*;
 
   virtual ~GolangModuleFactory() = default;
 };
 
 // Functions:
-// TODO: Maybe place this function in another header so.
-// So that we can verify the module name at compile time.
-constexpr auto valid_module_name(const std::string_view t_module_name) -> bool
+//! Used to verify the module name potentially at compile time.
+constexpr inline auto valid_module_name(const std::string_view t_module_name)
+  -> bool
 {
   bool valid{true};
 
@@ -58,6 +63,13 @@ constexpr auto valid_module_name(const std::string_view t_module_name) -> bool
   return valid;
 }
 
+// GolangModuleFactory Template Methods:
+template<typename R, typename... Args>
+auto GolangModuleFactory::def(std::string_view t_name, R (*t_fn)(Args...))
+  -> Error
+{
+  return {};
+}
 } // namespace gobind
 
 #endif // GOLANG_MODULE_FACTORY_HPP

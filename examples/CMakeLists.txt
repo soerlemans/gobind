@@ -1,6 +1,6 @@
 # Todo implement:
 
-add_executable(
+add_library(
   simple
   simple.cpp
 )

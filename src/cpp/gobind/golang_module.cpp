@@ -14,7 +14,7 @@ Error golang_module_create(GolangModule* t_module, const char* t_name)
   t_module = new GolangModule{};
 
   const std::string_view name{t_name};
-  if(!valid_module_name(name)) {
+  if(!gobind::valid_module_name(name)) {
     error_fail(&error, ERRORMSG_INVALID_GOLANG_MODULE_NAME);
 
     goto cleanup;

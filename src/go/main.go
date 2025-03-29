@@ -1,4 +1,4 @@
-package gobind
+package main
 
 /*!
  * @file
@@ -10,3 +10,6 @@ import (
 	"os"
 	"text/template"
 )
+
+func main() {
+}

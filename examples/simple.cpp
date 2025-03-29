@@ -11,4 +11,8 @@ auto main() -> int
 
 // Define  the simple module for the add function.
 GOBIND_MODULE(simple, m)
-{}
+{
+  m.def("add", &add);
+}
+
+

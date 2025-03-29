@@ -8,6 +8,7 @@
  */
 
 // STL Includes:
+#include <cassert>
 #include <iostream>
 #include <string_view>
 
@@ -22,7 +23,7 @@
 
 // TODO: Fix lazy assert error message.
 // FIXME: For now we discard the result of factory.create_module().
-// void GOBIND_INTERNAL_FN(populate, t_name)(GolangModule * t_param);
+
 /*!
  * Define a Golang module that can be included from Golang.
  * This module defines two functions:
@@ -32,24 +33,25 @@
  * @note We call valid_module_name() in gobind_init_*().
  * As we then check it at compile time (potentially).
  */
-#define GOBIND_MODULE(t_name, t_param)                                   \
-  extern "C" {                                                           \
-  GolangModule* GOBIND_INTERNAL_FN(init, t_name)()                       \
-  {                                                                      \
-    using gobind::GolangModuleFactory;                                   \
-    using gobind::valid_module_name;                                     \
-    GolangModuleFactory factory{};                                       \
-    auto error{valid_module_name(t_name)};                               \
-    auto& [code, msg] = error;                                           \
-    if(code != ERROR_OK) {                                               \
-      assert(false && "Name of golang module may only contain [a-z_]."); \
-    }                                                                    \
-    factory.create_module(#t_name);                                      \
-    GOBIND_INTERNAL_FN(populate, t_name)(factory);                       \
-    return factory.get_module();                                         \
-  }                                                                      \
-  }                                                                      \
-  auto GOBIND_INTERNAL_FN(populate, t_name)(gobind::GolangModuleFactory  \
+#define GOBIND_MODULE(t_name, t_param)                                     \
+  void GOBIND_INTERNAL_FN(populate, t_name)(gobind::GolangModuleFactory&); \
+  extern "C" {                                                             \
+  GolangModule* GOBIND_INTERNAL_FN(init, t_name)()                         \
+  {                                                                        \
+    using gobind::GolangModuleFactory;                                     \
+    using gobind::valid_module_name;                                       \
+    GolangModuleFactory factory{};                                         \
+    auto is_valid{valid_module_name(#t_name)};                             \
+    if(!is_valid) {                                                        \
+      assert(false && ERRORMSG_INVALID_GOLANG_MODULE_NAME);                \
+    }                                                                      \
+    factory.create_module(#t_name);                                        \
+    GOBIND_INTERNAL_FN(populate, t_name)(factory);                         \
+    factory.compile_module();                                       \
+    return factory.get_module();                                           \
+  }                                                                        \
+  }                                                                        \
+  auto GOBIND_INTERNAL_FN(populate, t_name)(gobind::GolangModuleFactory    \
                                             & t_param) -> void
 // END GOBIND_MODULE.
 
