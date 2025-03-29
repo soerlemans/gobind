@@ -18,10 +18,16 @@
 #include "gobind.h"
 
 namespace gobind {
+// Aliases:
+using FunctionList = std::vector<GolangFunction>;
+
 // Classes:
 class GolangModuleFactory {
   private:
   GolangModule* m_module;
+
+  //! Calculate how many functions are needed.
+  FunctionList m_fn_list;
 
   public:
   GolangModuleFactory() = default;
@@ -30,7 +36,7 @@ class GolangModuleFactory {
   auto create_module(const char* t_name) -> Error;
 
   template<typename R, typename... Args>
-  auto def(std::string_view t_name, R (*t_fn)(Args...)) -> Error;
+  auto def(const char* t_name, R (*t_fn)(Args...)) -> Error;
 
   //! Create the @ref GolangModule with all the size calculations in place.
   auto compile_module() -> void;
@@ -41,10 +47,17 @@ class GolangModuleFactory {
 
 // GolangModuleFactory Template Methods:
 template<typename Ret, typename... Args>
-auto GolangModuleFactory::def(std::string_view t_name, Ret (*t_fn)(Args...))
-  -> Error
+auto GolangModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 {
-  using CFnPtr = Ret (*)(Args...);
+  // using CFnPtr = Ret (*)(Args...);
+
+  GolangFunction fn{};
+  fn.m_name = t_name;
+  fn.m_fn = (VoidFnPtr)t_fn;
+
+  m_fn_list.push_back(std::move(fn));
+
+  // m_fn_list.emplace_back(t_name, (VoidFnPtr)t_fn);
 
   return {};
 }

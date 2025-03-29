@@ -16,6 +16,7 @@ void golang_function_table_free(GolangFunctionTable** t_fn_table)
 {
   auto& fn_table{*t_fn_table};
 
+  // Free function table array and the the struct itself.
   delete[] fn_table->m_entries;
   delete fn_table;
 
