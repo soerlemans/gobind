@@ -39,6 +39,16 @@ class GolangModuleFactory {
   virtual ~GolangModuleFactory() = default;
 };
 
+// GolangModuleFactory Template Methods:
+template<typename Ret, typename... Args>
+auto GolangModuleFactory::def(std::string_view t_name, Ret (*t_fn)(Args...))
+  -> Error
+{
+  using CFnPtr = Ret (*)(Args...);
+
+  return {};
+}
+
 // Functions:
 //! Used to verify the module name potentially at compile time.
 constexpr inline auto valid_module_name(const std::string_view t_module_name)
@@ -63,13 +73,6 @@ constexpr inline auto valid_module_name(const std::string_view t_module_name)
   return valid;
 }
 
-// GolangModuleFactory Template Methods:
-template<typename R, typename... Args>
-auto GolangModuleFactory::def(std::string_view t_name, R (*t_fn)(Args...))
-  -> Error
-{
-  return {};
-}
 } // namespace gobind
 
 #endif // GOLANG_MODULE_FACTORY_HPP
