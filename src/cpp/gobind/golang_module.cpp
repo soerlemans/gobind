@@ -10,10 +10,10 @@
 // Functions:
 Error golang_module_create(GolangModule** t_module, const char* t_name)
 {
-  auto& module_{*t_module};
+  auto& module_ptr{*t_module};
 
   Error error{ERROR_FAIL, nullptr};
-  module_ = new GolangModule{};
+  module_ptr = new GolangModule{};
 
   const std::string_view name{t_name};
   if(!gobind::valid_module_name(name)) {
@@ -25,16 +25,17 @@ Error golang_module_create(GolangModule** t_module, const char* t_name)
   return error;
 
 cleanup:
-  golang_module_free(&module_);
+  golang_module_free(&module_ptr);
 
   return error;
 }
 
 void golang_module_free(GolangModule** t_module)
 {
-  auto& module_{*t_module};
+  auto& module_ptr{*t_module};
 
-  delete module_;
+  golang_function_table_free(&module_ptr->m_fn_table);
+  delete module_ptr;
 
-  module_ = nullptr;
+  module_ptr = nullptr;
 }
