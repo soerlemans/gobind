@@ -11,24 +11,18 @@ package main
 #include <dlfcn.h>
 #include <stdio.h>
 
-void* load_library(const char* lib_path) {
-    return dlopen(lib_path, RTLD_LAZY);
-}
-
-void* load_symbol(void* handle, const char* symbol_name) {
-    return dlsym(handle, symbol_name);
-}
-
-void close_library(void* handle) {
-    dlclose(handle);
-}
+// RTLD_LAZY is a macro need to export by assigning it.
+const int RTLD_LAZY_MODE = RTLD_LAZY;
 */
 import "C"
 
 // Regular Imports:
 import (
+	"errors"
 	"fmt"
 	"github.com/alexflint/go-arg"
+	"log"
+	"unsafe"
 	// "os"
 	// "text/template"
 )
@@ -52,6 +46,35 @@ const (
 var args Arguments
 
 // Functions:
+func dlopen(t_path string) (unsafe.Pointer, error) {
+	handle := C.dlopen(C.CString(t_path), C.RTLD_LAZY_MODE)
+	if handle == nil {
+		err_msg := C.dlerror()
+		err := errors.New(C.GoString(err_msg))
+
+		return handle, err
+	}
+
+	return handle, nil
+}
+
+func dlsym(t_handle unsafe.Pointer, t_symbol_name string) (unsafe.Pointer, error) {
+	// Load a symbol (function) from the library
+	symbol := C.dlsym(t_handle, C.CString(t_symbol_name))
+	if symbol == nil {
+		err_msg := C.dlerror()
+		err := errors.New(C.GoString(err_msg))
+
+		return symbol, err
+	}
+
+	return symbol, nil
+}
+
+func dlclose(t_handle unsafe.Pointer) {
+	C.dlclose(t_handle)
+}
+
 func main() {
 	// Parse and handle arguments.
 	arg.MustParse(&args)
@@ -59,9 +82,16 @@ func main() {
 	fmt.Printf("I: %s, O: %s\n", args.InputFile, args.OutputFile)
 
 	// Load the shared library
-	handle := C.load_library(C.CString(args.InputFile))
-	if handle == nil {
-		fmt.Println("Error loading library:", C.dlerror())
+	handle, err := dlopen(args.InputFile)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer dlclose(handle)
+
+	_, err = dlsym(handle, "gobind_init_simple")
+	if err != nil {
+		log.Fatal(err)
 		return
 	}
 }
