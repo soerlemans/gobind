@@ -1,6 +1,9 @@
 # Project specific:
 build/
 
+# Omit Gobind CLI tool.
+gobind
+
 # C++:
 # Prerequisites
 *.d

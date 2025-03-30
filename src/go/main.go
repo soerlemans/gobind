@@ -8,8 +8,11 @@ package main
 
 /*
 #cgo LDFLAGS: -ldl
+// C Includes:
 #include <dlfcn.h>
 #include <stdio.h>
+
+#include "gobind.h"
 
 // RTLD_LAZY is a macro need to export by assigning it.
 const int RTLD_LAZY_MODE = RTLD_LAZY;
