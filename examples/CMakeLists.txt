@@ -1,7 +1,7 @@
 # Todo implement:
 
 add_library(
-  simple
+  simple SHARED
   simple.cpp
 )
 
