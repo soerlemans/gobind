@@ -12,7 +12,7 @@ package main
 #include <dlfcn.h>
 #include <stdio.h>
 
-// #include "gobind.h"
+#include "/home/hackerman/Projects/Git/Personal/gobind/src/cpp/gobind/gobind.h"
 
 // RTLD_LAZY is a macro need to export by assigning it.
 const int RTLD_LAZY_MODE = RTLD_LAZY;
@@ -91,6 +91,12 @@ func main() {
 		return
 	}
 	defer dlclose(handle)
+
+	_, err = dlsym(handle, "")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 
 	_, err = dlsym(handle, "gobind_registered_modules")
 	if err != nil {

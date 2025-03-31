@@ -14,7 +14,7 @@ GobindModules registered_modules{modules.data(), 0};
 } // namespace
 
 //  Functions:
-const GobindModules* gobind_registered_modules()
+volatile const GobindModules* gobind_registered_modules()
 {
   registered_modules.m_modules = modules.data();
 

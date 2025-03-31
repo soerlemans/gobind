@@ -31,7 +31,7 @@ typedef struct {
 /*!
  * Very important function that returns all modules defined.
  */
-const GobindModules* gobind_registered_modules();
+volatile const GobindModules* gobind_registered_modules();
 void gobind_register_module(GolangModule* t_module);
 
 #ifdef __cplusplus
