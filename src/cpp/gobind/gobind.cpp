@@ -13,8 +13,12 @@ ModulesVec modules{};
 GobindModules registered_modules{modules.data(), 0};
 } // namespace
 
+// Volatile Function Pointers:
+const GobindModules* (*volatile gobind_modules)(void) =
+  gobind_registered_modules;
+
 //  Functions:
-volatile const GobindModules* gobind_registered_modules()
+const GobindModules* gobind_registered_modules(void)
 {
   registered_modules.m_modules = modules.data();
 

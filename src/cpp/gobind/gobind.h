@@ -31,8 +31,12 @@ typedef struct {
 /*!
  * Very important function that returns all modules defined.
  */
-volatile const GobindModules* gobind_registered_modules();
+const GobindModules* gobind_registered_modules(void);
 void gobind_register_module(GolangModule* t_module);
+
+// Volatile Function Pointers:
+//! Prevent @ref gobind_modules() from being optimized away by the compiler.
+extern const GobindModules* (*volatile gobind_modules)(void);
 
 #ifdef __cplusplus
 }
