@@ -130,29 +130,25 @@ func gobindRegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 		return modules, err
 	}
 
-	//fn_ptr := (C.void_fn_ptr)(unsafe.Pointer(sym))
-	//modules = fn_ptr()
-
 	voidPtr := C.call_func(sym)
 	gobindModules := (*C.GobindModules)(unsafe.Pointer(voidPtr))
 
-	moduleCount := int(gobindModules.m_size)
-	modulePtrs := (*[1 << 30]*C.char)(unsafe.Pointer(&gobindModules))[:moduleCount:moduleCount]
+	size := int(gobindModules.m_size)
+	logf("Module count: %d\n", size)
 
-	logf("Module count: %d\n", moduleCount)
+	ptrs := unsafe.Slice(gobindModules.m_modules, size)
 
-	modules = make([]string, moduleCount)
-	for i, ptr := range modulePtrs {
+	modules = make([]string, size)
+	for i, ptr := range ptrs {
 		modules[i] = C.GoString(ptr)
 
 		logf("Modules[%d]: %s\n", i, modules[i])
 	}
 
-	// modules[0] = gobindModules.m_modules[0]
-	// logf("Modules[%d]: %s\n", 0, modules[0])
-
 	return modules, err
 }
+
+func generateModules() {}
 
 func main() {
 	err := initArgs()
@@ -167,7 +163,7 @@ func main() {
 	}
 	defer dlclose(handle)
 
-	gobindRegisteredModules(handle)
+	modules := gobindRegisteredModules(handle)
 	if err != nil {
 		fail(err)
 	}
