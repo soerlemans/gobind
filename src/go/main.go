@@ -90,13 +90,8 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-	defer dlclose(handle)
 
-	_, err = dlsym(handle, "")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	defer dlclose(handle)
 
 	_, err = dlsym(handle, "gobind_registered_modules")
 	if err != nil {
