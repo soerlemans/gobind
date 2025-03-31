@@ -2,8 +2,8 @@
 #include <iostream>
 
 // Library Includes:
-#include <gobind/gobind.hpp>
 #include <gobind/gobind.h>
+#include <gobind/gobind.hpp>
 
 auto add(const int t_l, const int t_r) -> int
 {
@@ -14,10 +14,9 @@ auto main() -> int
 {
   const auto* registered{gobind_registered_modules()};
 
-
   for(auto index{0}; index < registered->m_size; index++) {
     const auto& modules{registered->m_modules};
-    std::cout << "Name " << index << ": " << modules[index].m_name << '\n';
+    std::cout << "Name " << index << ": " << modules[index] << '\n';
   }
 }
 

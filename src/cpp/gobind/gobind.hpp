@@ -38,7 +38,7 @@
  * As we then check it at compile time (potentially).
  */
 #define GOBIND_MODULE(t_name, t_param)                                  \
-  extern "C" void GOBIND_INTERNAL(init, t_name)();                      \
+  extern "C" GolangModule* GOBIND_INTERNAL(init, t_name)();             \
   void GOBIND_INTERNAL(populate, t_name)(gobind::GolangModuleFactory&); \
   struct GOBIND_INTERNAL(struct_init_hook, t_name) {                    \
     GOBIND_INTERNAL(struct_init_hook, t_name)()                         \
@@ -48,7 +48,7 @@
   };                                                                    \
   GOBIND_INTERNAL(struct_init_hook, t_name)                             \
   GOBIND_INTERNAL(var_init_hook, t_name);                               \
-  extern "C" void GOBIND_INTERNAL(init, t_name)()                       \
+  extern "C" GolangModule* GOBIND_INTERNAL(init, t_name)()              \
   {                                                                     \
     using gobind::GolangModuleFactory;                                  \
     using gobind::valid_module_name;                                    \
@@ -60,7 +60,8 @@
     factory.create_module(#t_name);                                     \
     GOBIND_INTERNAL(populate, t_name)(factory);                         \
     factory.compile_module();                                           \
-    gobind_register_module(factory.get_module());                       \
+    gobind_register_module(#t_name);                                    \
+    return factory.get_module();                                        \
   }                                                                     \
   auto GOBIND_INTERNAL(populate,                                        \
                        t_name)(gobind::GolangModuleFactory & t_param) -> void

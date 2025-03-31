@@ -17,22 +17,19 @@ extern "C" {
 
 // Structs:
 /*!
- * Contains registered @ref GolangModule.
- * From this function the gobind command tool.
- * Retrieves all the @ref GobindModules.
- * Which it uses to generate its source code.
+ * Contains the names of the registered modules.
  */
 typedef struct {
-  const GolangModule* m_modules;
+  const char** m_modules;
   size_t m_size;
 } GobindModules;
 
 // Functions:
 /*!
- * Very important function that returns all modules defined.
+ * Very important function that returns the names of all modules.
  */
 const GobindModules* gobind_registered_modules(void);
-void gobind_register_module(GolangModule* t_module);
+void gobind_register_module(const char* t_name);
 
 // Volatile Function Pointers:
 //! Prevent @ref gobind_modules() from being optimized away by the compiler.

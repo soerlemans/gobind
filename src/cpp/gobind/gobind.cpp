@@ -6,26 +6,26 @@
 // Internal:
 namespace {
 // Aliases:
-using ModulesVec = std::vector<GolangModule>;
+using ModulesVec = std::vector<const char*>;
 
 // Globals:
 ModulesVec modules{};
-GobindModules registered_modules{modules.data(), 0};
+GobindModules registered_modules{static_cast<const char**>(modules.data()), 0};
 } // namespace
 
-// Volatile Function Pointers:
-const GobindModules* (*volatile gobind_modules)(void) =
-  gobind_registered_modules;
-
 //  Functions:
-const GobindModules* gobind_registered_modules(void)
+const GobindModules* gobind_registered_modules()
 {
   registered_modules.m_modules = modules.data();
 
   return &registered_modules;
 }
 
-void gobind_register_module(GolangModule* t_module)
+void gobind_register_module(const char* t_name)
 {
-  modules.push_back(*t_module);
+  modules.push_back(t_name);
 }
+
+// Volatile Function Pointers:
+const GobindModules* (*volatile gobind_modules)(void) =
+  gobind_registered_modules;
