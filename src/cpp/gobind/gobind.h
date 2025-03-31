@@ -15,11 +15,24 @@ extern "C" {
 // Local Includes:
 #include "golang_module.h"
 
+// Structs:
+/*!
+ * Contains registered @ref GolangModule.
+ * From this function the gobind command tool.
+ * Retrieves all the @ref GobindModules.
+ * Which it uses to generate its source code.
+ */
+typedef struct {
+  const GolangModule* m_modules;
+  size_t m_size;
+} GobindModules;
+
 // Functions:
-//! Very important function that returns all modules defined
-GolangModule* gobind_modules();
-void gobind_register_function();
-void gobind_get_function();
+/*!
+ * Very important function that returns all modules defined.
+ */
+const GobindModules* gobind_registered_modules();
+void gobind_register_module(GolangModule* t_module);
 
 #ifdef __cplusplus
 }

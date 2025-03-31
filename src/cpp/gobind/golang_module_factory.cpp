@@ -6,7 +6,12 @@
 namespace gobind {
 auto GolangModuleFactory::create_module(const char* t_name) -> Error
 {
-  return golang_module_create(&m_module, t_name);
+  const auto error{golang_module_create(&m_module, t_name)};
+  if(error.m_code != ERROR_OK) {
+    return error;
+  }
+
+  return error;
 }
 
 auto GolangModuleFactory::compile_module() -> void
