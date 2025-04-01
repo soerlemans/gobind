@@ -1,6 +1,5 @@
 /*
- Bindings for interacting with the generated C dynamic library.
-
+Bindings for interacting with the generated C dynamic library.
 */
 package cgobind
 
@@ -29,11 +28,16 @@ void* call_func(void* t_func) {
 */
 import "C"
 
-// Regular Imports:
 import (
 	"errors"
+	"fmt"
 	"github.com/soerlemans/gobind/util"
 	"unsafe"
+)
+
+// Globals:
+const (
+	GOBIND_INIT_FMT = "gobind_init_%s"
 )
 
 // Functions:
@@ -92,4 +96,18 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	}
 
 	return modules, err
+}
+
+func InitModule(t_handle unsafe.Pointer, t_name string) (C.GolangModule, error) {
+	var module C.GolangModule
+
+	initFunctionName := fmt.Sprintf(GOBIND_INIT_FMT, t_name)
+	util.Logf("Init function: %s", initFunctionName)
+
+	_, err := DlSym(t_handle, initFunctionName)
+	if err != nil {
+		return module, err
+	}
+
+	return module, err
 }
