@@ -12,8 +12,9 @@
 
 // STL Includes:
 #include <cctype>
-#include <functional>
+#include <iostream>
 #include <string_view>
+#include <vector>
 
 // Local Includes:
 #include "gobind.h"
@@ -78,7 +79,9 @@ constexpr inline auto valid_module_name(const std::string_view t_module_name)
     const auto is_underscore{ch == underscore};
 
     // Only lowercase alpha numerics or underscores are allowed.
-    if(!is_alpha_lower || !is_underscore) {
+    const auto is_valid{is_alpha_lower || is_underscore};
+
+    if(!is_valid) {
       valid = false;
       break;
     }

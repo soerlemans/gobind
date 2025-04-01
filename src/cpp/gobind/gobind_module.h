@@ -30,9 +30,11 @@ typedef struct {
 
 // Functions:
 Error gobind_module_create(GobindModule** t_module, const char* t_name);
+void gobind_module_invalid_name(const char* t_name);
 // Error gobind_module_add_function(GobindModule* t_module, );
 // Error gobind_module_add_struct(GobindModule* t_module, );
 void gobind_module_free(GobindModule** t_module);
+
 
 #ifdef __cplusplus
 }

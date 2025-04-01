@@ -55,7 +55,7 @@
     GobindModuleFactory factory{};                                      \
     auto is_valid{valid_module_name(#t_name)};                          \
     if(!is_valid) {                                                     \
-      assert(false && ERRORMSG_INVALID_GOBIND_MODULE_NAME);             \
+      gobind_module_invalid_name(#t_name);				\
     }                                                                   \
     factory.create_module(#t_name);                                     \
     GOBIND_INTERNAL(populate, t_name)(factory);                         \

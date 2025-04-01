@@ -2,6 +2,9 @@
 
 // STL Includes:
 #include <cctype>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
 #include <string_view>
 
 // Local Includes:
@@ -29,6 +32,19 @@ cleanup:
   gobind_module_free(&module_ptr);
 
   return error;
+}
+
+void gobind_module_invalid_name(const char* t_name)
+{
+  // clang-format off
+  std::cerr << "Error: "
+	    << std::quoted(t_name)
+	    << ' '
+            << ERRORMSG_INVALID_GOBIND_MODULE_NAME
+	    << '\n';
+  // clang-format on
+
+  std::exit(ERROR_FAIL);
 }
 
 void gobind_module_free(GobindModule** t_module)
