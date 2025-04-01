@@ -9,21 +9,23 @@ namespace {
 using ModulesVec = std::vector<const char*>;
 
 // Globals:
-ModulesVec modules{};
-GobindModules registered_modules{static_cast<const char**>(modules.data()), 0};
+ModulesVec modules_vec{};
+GobindModules registered_modules{static_cast<const char**>(modules_vec.data()),
+                                 0};
 } // namespace
 
 //  Functions:
 const GobindModules* gobind_registered_modules()
 {
-  registered_modules.m_modules = modules.data();
+  registered_modules.m_modules = modules_vec.data();
+  registered_modules.m_size = modules_vec.size();
 
   return &registered_modules;
 }
 
 void gobind_register_module(const char* t_name)
 {
-  modules.push_back(t_name);
+  modules_vec.push_back(t_name);
 }
 
 // Volatile Function Pointers:

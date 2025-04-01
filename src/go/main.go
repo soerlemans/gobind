@@ -51,9 +51,10 @@ func (Arguments) Version() string {
 
 // Globals:
 const (
-	VERSION       = "0.1"
-	DEBUG         = true
-	EXIT_CODE_ERR = 1
+	VERSION         = "0.1"
+	DEBUG           = true
+	GOBIND_INIT_FMT = "gobind_init_%s"
+	EXIT_CODE_ERR   = 1
 )
 
 var args Arguments
@@ -148,7 +149,9 @@ func gobindRegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	return modules, err
 }
 
-func generateModules() {}
+func walkModules(t_registered_names []string) {
+
+}
 
 func main() {
 	err := initArgs()
@@ -163,7 +166,7 @@ func main() {
 	}
 	defer dlclose(handle)
 
-	modules := gobindRegisteredModules(handle)
+	_, err = gobindRegisteredModules(handle)
 	if err != nil {
 		fail(err)
 	}
