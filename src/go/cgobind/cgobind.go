@@ -1,8 +1,10 @@
 /*
- * Bindings for interacting with the generated C dynamic library.
- *
- */
+ Bindings for interacting with the generated C dynamic library.
+
+*/
 package cgobind
+
+// TODO: For the cgo part we need to do some more thinking.
 
 /*
 #cgo LDFLAGS: -ldl
@@ -14,6 +16,9 @@ package cgobind
 
 // RTLD_LAZY is a macro need to export by assigning it.
 const int RTLD_LAZY_MODE = RTLD_LAZY;
+
+//
+typedef void* (*void_fn_ptr)();
 
 //
 typedef void* (*void_fn_ptr)();

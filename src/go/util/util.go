@@ -1,6 +1,6 @@
 /*
- * Utility functions for gobind.
- */
+Utility functions for gobind.
+*/
 package util
 
 // Regular Imports:
