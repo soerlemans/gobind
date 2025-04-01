@@ -31,7 +31,7 @@ import (
 	"github.com/alexflint/go-arg"
 	"os"
 	"unsafe"
-	"util"
+	"github.com/soerlemans/gobind/util"
 	// "text/template"
 )
 
@@ -64,11 +64,11 @@ func initArgs() error {
 	// TODO: Create a function for this logging.
 	// Logging:
 	if len(args.InputFile) != 0 {
-		util.Logf("Input: %s\n", args.InputFile)
+		util.Logf("Input: %s", args.InputFile)
 	}
 
 	if len(args.OutputFile) != 0 {
-		util.Logf("Output: %s\n", args.OutputFile)
+		util.Logf("Output: %s", args.OutputFile)
 	}
 
 	_, err := os.Stat(args.InputFile)
@@ -121,7 +121,7 @@ func gobindRegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	gobindModules := (*C.GobindModules)(unsafe.Pointer(voidPtr))
 
 	size := int(gobindModules.m_size)
-	util.Logf("Module count: %d\n", size)
+	util.Logf("Module count: %d", size)
 
 	cStrs := unsafe.Slice(gobindModules.m_modules, size)
 
@@ -129,7 +129,7 @@ func gobindRegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	for i, cStr := range cStrs {
 		modules[i] = C.GoString(cStr)
 
-		util.Logf("Modules[%d]: %s\n", i, modules[i])
+		util.Logf("Modules[%d]: %s", i, modules[i])
 	}
 
 	return modules, err
@@ -138,7 +138,7 @@ func gobindRegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 func walkModules(t_registeredModules []string) {
 	for _, name := range t_registeredModules {
 		gobindInitFunctionName := fmt.Sprintf(GOBIND_INIT_FMT, name)
-		util.Logf("Init function: %s\n", gobindInitFunctionName)
+		util.Logf("Init function: %s", gobindInitFunctionName)
 	}
 }
 

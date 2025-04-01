@@ -28,9 +28,8 @@ import "C"
 // Regular Imports:
 import (
 	"errors"
-	"github.com/soerlemans/gobind/src/go/util"
+	"github.com/soerlemans/gobind/util"
 	"unsafe"
-	"util"
 )
 
 // Functions:
