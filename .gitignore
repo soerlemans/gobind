@@ -3,6 +3,7 @@ build/
 
 # Omit Gobind CLI tool.
 gobind
+!gobind/
 
 # C++:
 # Prerequisites
