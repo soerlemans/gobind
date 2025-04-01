@@ -30,19 +30,19 @@ typedef struct {
   // CppType m_return_type;
   // CppType* m_params;
   // size_t m_params_size;
-} GolangFunction;
+} GobindFunction;
 
 /*!
  * Function table consisting function pointers that will be exported to Golang..
  */
 typedef struct {
-  GolangFunction* m_entries;
+  GobindFunction* m_entries;
   size_t m_size;
-} GolangFunctionTable;
+} GobindFunctionTable;
 
-Error golang_function_table_create(GolangFunctionTable** t_fn_table,
+Error gobind_function_table_create(GobindFunctionTable** t_fn_table,
                                    size_t t_size);
-void golang_function_table_free(GolangFunctionTable** t_fn_table);
+void gobind_function_table_free(GobindFunctionTable** t_fn_table);
 
 #ifdef __cplusplus
 }

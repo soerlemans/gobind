@@ -4,9 +4,10 @@
 /*!
  * @file
  *
- * Helper class intended to construct the @ref GolangModule class.
+ * Helper class intended to construct the @ref GobindModule class.
  * This only helps with constructing the class.
- * The underlying @ref GolangModule is eventually passed to cgo.
+ * The underlying @ref GobindModule is eventually extracted.
+ * From the shared library by the Golang gobind binary.
  */
 
 // STL Includes:
@@ -19,18 +20,18 @@
 
 namespace gobind {
 // Aliases:
-using FunctionList = std::vector<GolangFunction>;
+using FunctionList = std::vector<GobindFunction>;
 
 // Classes:
-class GolangModuleFactory {
+class GobindModuleFactory {
   private:
-  GolangModule* m_module;
+  GobindModule* m_module;
 
   //! Calculate how many functions are needed.
   FunctionList m_fn_list;
 
   public:
-  GolangModuleFactory() = default;
+  GobindModuleFactory() = default;
 
   // Methods:
   auto create_module(const char* t_name) -> Error;
@@ -38,20 +39,20 @@ class GolangModuleFactory {
   template<typename R, typename... Args>
   auto def(const char* t_name, R (*t_fn)(Args...)) -> Error;
 
-  //! Create the @ref GolangModule with all the size calculations in place.
+  //! Create the @ref GobindModule with all the size calculations in place.
   auto compile_module() -> void;
-  auto get_module() -> GolangModule*;
+  auto get_module() -> GobindModule*;
 
-  virtual ~GolangModuleFactory() = default;
+  virtual ~GobindModuleFactory() = default;
 };
 
-// GolangModuleFactory Template Methods:
+// GobindModuleFactory Template Methods:
 template<typename Ret, typename... Args>
-auto GolangModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
+auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 {
   // using CFnPtr = Ret (*)(Args...);
 
-  GolangFunction fn{};
+  GobindFunction fn{};
   fn.m_name = t_name;
   fn.m_fn = (VoidFnPtr)t_fn;
 
@@ -88,4 +89,4 @@ constexpr inline auto valid_module_name(const std::string_view t_module_name)
 
 } // namespace gobind
 
-#endif // GOLANG_MODULE_FACTORY_HPP
+#endif // GObind_MODULE_FACTORY_HPP

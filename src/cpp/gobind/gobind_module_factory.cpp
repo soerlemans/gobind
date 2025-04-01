@@ -1,12 +1,12 @@
-#include "golang_module_factory.hpp"
+#include "gobind_module_factory.hpp"
 
 // Local Includes:
 #include "gobind.h"
 
 namespace gobind {
-auto GolangModuleFactory::create_module(const char* t_name) -> Error
+auto GobindModuleFactory::create_module(const char* t_name) -> Error
 {
-  const auto error{golang_module_create(&m_module, t_name)};
+  const auto error{gobind_module_create(&m_module, t_name)};
   if(error.m_code != ERROR_OK) {
     return error;
   }
@@ -14,13 +14,13 @@ auto GolangModuleFactory::create_module(const char* t_name) -> Error
   return error;
 }
 
-auto GolangModuleFactory::compile_module() -> void
+auto GobindModuleFactory::compile_module() -> void
 {
   // Create function pointer table.
   const auto size{m_fn_list.size()};
   auto& fn_table{m_module->m_fn_table};
 
-  golang_function_table_create(&fn_table, size);
+  gobind_function_table_create(&fn_table, size);
 
   // FIXME: Figure out a safe way to use std::move() here.
   std::size_t index{0};
@@ -31,7 +31,7 @@ auto GolangModuleFactory::compile_module() -> void
   }
 }
 
-auto GolangModuleFactory::get_module() -> GolangModule*
+auto GobindModuleFactory::get_module() -> GobindModule*
 {
   return m_module;
 }

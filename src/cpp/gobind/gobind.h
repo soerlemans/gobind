@@ -13,7 +13,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 // Local Includes:
-#include "golang_module.h"
+#include "gobind_module.h"
 
 // Structs:
 /*!

@@ -15,24 +15,24 @@ extern "C" {
 
 // Local Includes:
 #include "error.h"
-#include "golang_function_table.h"
+#include "gobind_function_table.h"
 
 // Constants:
-#define GOLANG_MODULE_MAX_NAME_LENGTH (256)
+#define GOBIND_MODULE_MAX_NAME_LENGTH (256)
 
-#define ERRORMSG_INVALID_GOLANG_MODULE_NAME ("Invalid Golang Module name.")
+#define ERRORMSG_INVALID_GOBIND_MODULE_NAME ("Invalid Golang Module name.")
 
 // Structs:
 typedef struct {
-  char m_name[GOLANG_MODULE_MAX_NAME_LENGTH];
-  GolangFunctionTable* m_fn_table;
-} GolangModule;
+  char m_name[GOBIND_MODULE_MAX_NAME_LENGTH];
+  GobindFunctionTable* m_fn_table;
+} GobindModule;
 
 // Functions:
-Error golang_module_create(GolangModule** t_module, const char* t_name);
-// Error golang_module_add_function(GolangModule* t_module, );
-// Error golang_module_add_struct(GolangModule* t_module, );
-void golang_module_free(GolangModule** t_module);
+Error gobind_module_create(GobindModule** t_module, const char* t_name);
+// Error gobind_module_add_function(GobindModule* t_module, );
+// Error gobind_module_add_struct(GobindModule* t_module, );
+void gobind_module_free(GobindModule** t_module);
 
 #ifdef __cplusplus
 }

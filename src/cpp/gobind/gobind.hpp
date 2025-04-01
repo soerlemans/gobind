@@ -13,7 +13,7 @@
 #include <string_view>
 
 // Local Includes:
-#include "golang_module_factory.hpp"
+#include "gobind_module_factory.hpp"
 #include "macros.h"
 
 // Macros:
@@ -25,7 +25,7 @@
 // FIXME: For now we discard the result of factory.create_module().
 
 /*!
- * Define a Golang module that can be included from Golang.
+ * Define a @ref GobindModule that can be included from Golang.
  * This module defines two functions:
  *
  * gobind_struct_init_hook_* # Struct
@@ -38,8 +38,8 @@
  * As we then check it at compile time (potentially).
  */
 #define GOBIND_MODULE(t_name, t_param)                                  \
-  extern "C" GolangModule* GOBIND_INTERNAL(init, t_name)();             \
-  void GOBIND_INTERNAL(populate, t_name)(gobind::GolangModuleFactory&); \
+  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)();             \
+  void GOBIND_INTERNAL(populate, t_name)(gobind::GobindModuleFactory&); \
   struct GOBIND_INTERNAL(struct_init_hook, t_name) {                    \
     GOBIND_INTERNAL(struct_init_hook, t_name)()                         \
     {                                                                   \
@@ -48,14 +48,14 @@
   };                                                                    \
   GOBIND_INTERNAL(struct_init_hook, t_name)                             \
   GOBIND_INTERNAL(var_init_hook, t_name);                               \
-  extern "C" GolangModule* GOBIND_INTERNAL(init, t_name)()              \
+  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)()              \
   {                                                                     \
-    using gobind::GolangModuleFactory;                                  \
+    using gobind::GobindModuleFactory;                                  \
     using gobind::valid_module_name;                                    \
-    GolangModuleFactory factory{};                                      \
+    GobindModuleFactory factory{};                                      \
     auto is_valid{valid_module_name(#t_name)};                          \
     if(!is_valid) {                                                     \
-      assert(false && ERRORMSG_INVALID_GOLANG_MODULE_NAME);             \
+      assert(false && ERRORMSG_INVALID_GOBIND_MODULE_NAME);             \
     }                                                                   \
     factory.create_module(#t_name);                                     \
     GOBIND_INTERNAL(populate, t_name)(factory);                         \
@@ -63,7 +63,7 @@
     return factory.get_module();                                        \
   }                                                                     \
   auto GOBIND_INTERNAL(populate,                                        \
-                       t_name)(gobind::GolangModuleFactory & t_param) -> void
+                       t_name)(gobind::GobindModuleFactory & t_param) -> void
 
 // END GOBIND_MODULE.
 

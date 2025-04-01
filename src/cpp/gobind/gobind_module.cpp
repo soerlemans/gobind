@@ -1,23 +1,23 @@
-#include "golang_module.h"
+#include "gobind_module.h"
 
 // STL Includes:
 #include <cctype>
 #include <string_view>
 
 // Local Includes:
-#include "golang_module_factory.hpp"
+#include "gobind_module_factory.hpp"
 
 // Functions:
-Error golang_module_create(GolangModule** t_module, const char* t_name)
+Error gobind_module_create(GobindModule** t_module, const char* t_name)
 {
   auto& module_ptr{*t_module};
 
   Error error{ERROR_FAIL, nullptr};
-  module_ptr = new GolangModule{};
+  module_ptr = new GobindModule{};
 
   const std::string_view name{t_name};
   if(!gobind::valid_module_name(name)) {
-    error_fail(&error, ERRORMSG_INVALID_GOLANG_MODULE_NAME);
+    error_fail(&error, ERRORMSG_INVALID_GOBIND_MODULE_NAME);
 
     goto cleanup;
   }
@@ -25,16 +25,16 @@ Error golang_module_create(GolangModule** t_module, const char* t_name)
   return error;
 
 cleanup:
-  golang_module_free(&module_ptr);
+  gobind_module_free(&module_ptr);
 
   return error;
 }
 
-void golang_module_free(GolangModule** t_module)
+void gobind_module_free(GobindModule** t_module)
 {
   auto& module_ptr{*t_module};
 
-  golang_function_table_free(&module_ptr->m_fn_table);
+  gobind_function_table_free(&module_ptr->m_fn_table);
   delete module_ptr;
 
   module_ptr = nullptr;
