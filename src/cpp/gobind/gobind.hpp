@@ -38,7 +38,7 @@
  * As we then check it at compile time (potentially).
  */
 #define GOBIND_MODULE(t_name, t_param)                                  \
-  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)();             \
+  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)(void);         \
   void GOBIND_INTERNAL(populate, t_name)(gobind::GobindModuleFactory&); \
   struct GOBIND_INTERNAL(struct_init_hook, t_name) {                    \
     GOBIND_INTERNAL(struct_init_hook, t_name)()                         \
@@ -48,7 +48,7 @@
   };                                                                    \
   GOBIND_INTERNAL(struct_init_hook, t_name)                             \
   GOBIND_INTERNAL(var_init_hook, t_name);                               \
-  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)()              \
+  extern "C" GobindModule* GOBIND_INTERNAL(init, t_name)(void)          \
   {                                                                     \
     using gobind::GobindModuleFactory;                                  \
     using gobind::valid_module_name;                                    \

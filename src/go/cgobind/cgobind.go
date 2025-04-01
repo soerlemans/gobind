@@ -17,14 +17,19 @@ package cgobind
 const int RTLD_LAZY_MODE = RTLD_LAZY;
 
 //
-typedef void* (*void_fn_ptr)();
+typedef void* (*void_fn_ptr)(void);
 
 //
-typedef void* (*void_fn_ptr)();
+typedef GobindModule* (*gobind_fn_ptr)(void);
 
-void* call_func(void* t_func) {
+void* call_void_func(void* t_func) {
     return ((void_fn_ptr)t_func)();
 }
+
+GobindModule* call_gobind_module_init(void* t_func) {
+    return ((gobind_fn_ptr)t_func)();
+}
+
 */
 import "C"
 
@@ -75,13 +80,13 @@ func DlClose(t_handle unsafe.Pointer) {
 func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	var modules []string
 
-	sym, err := DlSym(t_handle, "gobind_registered_modules")
+	sym, err := DlSym(t_handle, "gobind_registery")
 	if err != nil {
 		return modules, err
 	}
 
-	voidPtr := C.call_func(sym)
-	gobindModules := (*C.GobindModules)(unsafe.Pointer(voidPtr))
+	voidPtr := C.call_void_func(sym)
+	gobindModules := (*C.GobindRegistery)(unsafe.Pointer(voidPtr))
 
 	size := int(gobindModules.m_size)
 	util.Logf("Module count: %d", size)
@@ -98,16 +103,21 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	return modules, err
 }
 
-func InitModule(t_handle unsafe.Pointer, t_name string) (C.GolangModule, error) {
-	var module C.GolangModule
+func InitModule(t_handle unsafe.Pointer, t_name string) (C.GobindModule, error) {
+	var module C.GobindModule
 
 	initFunctionName := fmt.Sprintf(GOBIND_INIT_FMT, t_name)
 	util.Logf("Init function: %s", initFunctionName)
 
-	_, err := DlSym(t_handle, initFunctionName)
+	sym, err := DlSym(t_handle, initFunctionName)
 	if err != nil {
 		return module, err
 	}
+
+	module_ := C.call_gobind_module_init(sym)
+	util.Logf("Module name: %s", C.GoString(module_.m_name))
+
+	// module = (*C.GobindModule)(unsafe.Pointer(ptr))
 
 	return module, err
 }

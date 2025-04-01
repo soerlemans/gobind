@@ -6,28 +6,27 @@
 // Internal:
 namespace {
 // Aliases:
-using ModulesVec = std::vector<const char*>;
+using ModuleNamesVec = std::vector<const char*>;
 
 // Globals:
-ModulesVec modules_vec{};
-GobindModules registered_modules{static_cast<const char**>(modules_vec.data()),
-                                 0};
+ModuleNamesVec name_vec{};
+GobindRegistery registery{static_cast<const char**>(name_vec.data()), 0};
 } // namespace
 
 //  Functions:
-const GobindModules* gobind_registered_modules()
+const GobindRegistery* gobind_registery()
 {
-  registered_modules.m_modules = modules_vec.data();
-  registered_modules.m_size = modules_vec.size();
+  registery.m_modules = name_vec.data();
+  registery.m_size = name_vec.size();
 
-  return &registered_modules;
+  return &registery;
 }
 
 void gobind_register_module(const char* t_name)
 {
-  modules_vec.push_back(t_name);
+  name_vec.push_back(t_name);
 }
 
 // Volatile Function Pointers:
-const GobindModules* (*volatile gobind_modules)(void) =
-  gobind_registered_modules;
+const GobindRegistery* (*volatile gobind_volatile_registery_ptr)(void) =
+  gobind_registery;

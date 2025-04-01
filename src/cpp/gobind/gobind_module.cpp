@@ -15,12 +15,13 @@ Error gobind_module_create(GobindModule** t_module, const char* t_name)
   Error error{ERROR_FAIL, nullptr};
   module_ptr = new GobindModule{};
 
-  const std::string_view name{t_name};
-  if(!gobind::valid_module_name(name)) {
+  if(!gobind::valid_module_name(t_name)) {
     error_fail(&error, ERRORMSG_INVALID_GOBIND_MODULE_NAME);
 
     goto cleanup;
   }
+
+  module_ptr->m_name = t_name;
 
   return error;
 

@@ -22,18 +22,18 @@ extern "C" {
 typedef struct {
   const char** m_modules;
   size_t m_size;
-} GobindModules;
+} GobindRegistery;
 
 // Functions:
 /*!
  * Very important function that returns the names of all modules.
  */
-const GobindModules* gobind_registered_modules(void);
+const GobindRegistery* gobind_registery(void);
 void gobind_register_module(const char* t_name);
 
 // Volatile Function Pointers:
-//! Prevent @ref gobind_modules() from being optimized away by the compiler.
-extern const GobindModules* (*volatile gobind_modules)(void);
+//! Prevent @ref gobind_registery() from being optimized away by the compiler.
+extern const GobindRegistery* (*volatile gobind_volatile_registery_ptr)(void);
 
 #ifdef __cplusplus
 }

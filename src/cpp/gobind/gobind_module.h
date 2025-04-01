@@ -24,7 +24,7 @@ extern "C" {
 
 // Structs:
 typedef struct {
-  char m_name[GOBIND_MODULE_MAX_NAME_LENGTH];
+  const char* m_name;
   GobindFunctionTable* m_fn_table;
 } GobindModule;
 
