@@ -8,51 +8,44 @@
 #include <string_view>
 
 // Local Includes:
+#include "alloc.hpp"
 #include "gobind_module_factory.hpp"
 
 // Functions:
 Error gobind_module_create(GobindModule** t_module, const char* t_name)
 {
-  auto& module_ptr{*t_module};
+  Error error{};
+  error_ok(&error);
 
-  Error error{ERROR_FAIL, nullptr};
-  module_ptr = new GobindModule{};
+  auto& ptr{*t_module};
+  ptr = gobind::malloc<GobindModule>();
 
-  if(!gobind::valid_module_name(t_name)) {
+  // Check the module name, if it is valid.
+  const auto name_err{gobind::valid_module_name(t_name)};
+  if(name_err.m_code != ERROR_OK) {
     error_fail(&error, ERRORMSG_INVALID_GOBIND_MODULE_NAME);
 
     goto cleanup;
   }
 
-  module_ptr->m_name = t_name;
+  ptr->m_name = t_name;
 
   return error;
 
 cleanup:
-  gobind_module_free(&module_ptr);
+  gobind_module_free(&ptr);
 
   return error;
 }
 
-void gobind_module_invalid_name(const char* t_name)
-{
-  // clang-format off
-  std::cerr << "Error: "
-	    << std::quoted(t_name)
-	    << ' '
-            << ERRORMSG_INVALID_GOBIND_MODULE_NAME
-	    << '\n';
-  // clang-format on
-
-  std::exit(ERROR_FAIL);
-}
-
 void gobind_module_free(GobindModule** t_module)
 {
+  // FIXME: Check if t_module is nullptr (nullptr dereference).
+  // FIXME: Then check if module_ptr is nullptr (prevent double free).
   auto& module_ptr{*t_module};
 
   gobind_function_table_free(&module_ptr->m_fn_table);
-  delete module_ptr;
+  std::free(module_ptr);
 
   module_ptr = nullptr;
 }

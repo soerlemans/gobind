@@ -25,11 +25,8 @@ auto GobindModuleFactory::compile_module() -> void
   gobind_function_table_create(&fn_table, size);
 
   // FIXME: Figure out a safe way to use std::move() here.
-  std::size_t index{0};
   for(auto& fn : m_fn_list) {
-    fn_table->m_entries[index] = fn;
-
-    index++;
+    gobind_function_table_add(&fn_table, &fn);
   }
 }
 

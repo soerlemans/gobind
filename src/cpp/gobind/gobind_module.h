@@ -20,7 +20,7 @@ extern "C" {
 // Constants:
 #define GOBIND_MODULE_MAX_NAME_LENGTH (256)
 
-#define ERRORMSG_INVALID_GOBIND_MODULE_NAME ("Invalid Golang Module name.")
+#define ERRORMSG_INVALID_GOBIND_MODULE_NAME ("Invalid Golang module name.")
 
 // Structs:
 typedef struct {

@@ -59,17 +59,15 @@ auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 
   m_fn_list.push_back(std::move(fn));
 
-  // m_fn_list.emplace_back(t_name, (VoidFnPtr)t_fn);
-
   return {};
 }
 
 // Functions:
 //! Used to verify the module name potentially at compile time.
 constexpr inline auto valid_module_name(const std::string_view t_module_name)
-  -> bool
+  -> Error
 {
-  bool valid{true};
+  Error error{};
 
   constexpr auto underscore{'_'};
 
@@ -82,14 +80,13 @@ constexpr inline auto valid_module_name(const std::string_view t_module_name)
     const auto is_valid{is_alpha_lower || is_underscore};
 
     if(!is_valid) {
-      valid = false;
+      error_fail(&error, ERRORMSG_INVALID_GOBIND_MODULE_NAME);
       break;
     }
   }
 
-  return valid;
+  return error;
 }
-
 } // namespace gobind
 
 #endif // GObind_MODULE_FACTORY_HPP

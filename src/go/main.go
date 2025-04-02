@@ -11,10 +11,23 @@ import (
 	// "text/template"
 )
 
-func walkModules(t_handle unsafe.Pointer, t_registeredModules []string) {
+func walkModules(t_handle unsafe.Pointer, t_registeredModules []string) error {
 	for _, name := range t_registeredModules {
 		cgobind.InitModule(t_handle, name)
+		// module, err := cgobind.InitModule(t_handle, name)
+		// if err != nil {
+		// 	return err
+		// }
+
+		// fn_table := module.m_fn_table
+
+		// fn_array := cgobind.CPtr2Array(fn_table.m_entries, fn_table.m_size)
+		// for _, fn := range fn_array {
+		// 	util.Logf("Function name: %s", C.GoString(fn.m_name))
+		// }
 	}
+
+	return nil
 }
 
 func main() {
@@ -32,6 +45,6 @@ func main() {
 	util.FailIf(err)
 
 	// Walk the modules and create the source.
-	walkModules(handle, registeredModules)
+	err = walkModules(handle, registeredModules)
 	util.FailIf(err)
 }

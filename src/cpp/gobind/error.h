@@ -20,7 +20,9 @@ typedef struct {
 } Error;
 
 // Functions:
-  void error_fail(Error* t_error, const char* t_msg);
+void error_ok(Error* t_error);
+void error_fail(Error* t_error, const char* t_msg);
+void error_assert(const Error* t_error);
 
 #ifdef __cplusplus
 }

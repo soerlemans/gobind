@@ -1,6 +1,16 @@
 #include "error.h"
 
+// STL Includes:
+#include <iostream>
+
 // Functions:
+void error_ok(Error* t_error)
+{
+  auto& [code, msg] = *t_error;
+  code = ERROR_OK;
+  msg = nullptr;
+}
+
 void error_fail(Error* t_error, const char* t_msg)
 {
   auto& [code, msg] = *t_error;
@@ -9,11 +19,12 @@ void error_fail(Error* t_error, const char* t_msg)
   msg = t_msg;
 }
 
-void error_check(Error* t_error)
+void error_assert(const Error* t_error)
 {
   const auto& [code, msg] = *t_error;
 
   if(code != ERROR_OK) {
-    // TODO: Assert/quit without memory leaks.
+    std::cerr << "Error (" << code << "): " << msg << '\n';
+    std::exit(code);
   }
 }

@@ -76,6 +76,14 @@ func DlClose(t_handle unsafe.Pointer) {
 	C.dlclose(t_handle)
 }
 
+// func CPtr2Array[T any, S C.int | C.size_t](t_ptr *T, t_size S) []T {
+// 	size := int(t_size)
+// 	util.Logf("Size: %d", size)
+// 	array := unsafe.Slice(t_ptr, size)
+
+// 	return array
+// }
+
 // Return the names of registered modules.
 func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	var modules []string
@@ -117,7 +125,14 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (C.GobindModule, error) 
 	module_ := C.call_gobind_module_init(sym)
 	util.Logf("Module name: %s", C.GoString(module_.m_name))
 
-	// module = (*C.GobindModule)(unsafe.Pointer(ptr))
+	util.Logf("FnTable: %p", module.m_fn_table)
+	// util.Logf("FnTable: %d", fn_table.m_size)
+	// util.Logf("FnTable: %p", fn_table.m_entries)
+	// _ = unsafe.Slice(fn_table.m_entries, int(fn_table.m_size))
+	// fn_array := CPtr2Array(fn_table.m_entries, fn_table.m_size)
+	//for _, fn := range fn_array {
+	//	util.Logf("Function name: %s", C.GoString(fn.m_name))
+	//}
 
 	return module, err
 }
