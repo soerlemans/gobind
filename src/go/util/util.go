@@ -35,3 +35,15 @@ func Logf(t_fmt string, t_args ...interface{}) {
 		log.Printf(fmtLn, t_args...)
 	}
 }
+
+func Printf(t_fmt string, t_args ...interface{}) {
+	fmtLn := fmt.Sprintln(t_fmt)
+
+	if !DEBUG {
+		// On non debug builds just print regularly.
+		fmt.Printf(fmtLn, t_args...)
+	} else {
+		// Use log instead.
+		log.Printf(fmtLn, t_args...)
+	}
+}

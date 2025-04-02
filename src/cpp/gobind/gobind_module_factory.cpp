@@ -22,7 +22,7 @@ auto GobindModuleFactory::compile_module() -> void
   const auto size{m_fn_list.size()};
   auto& fn_table{m_module->m_fn_table};
 
-  gobind_function_table_create(&fn_table, size);
+  gobind_function_table_resize(fn_table, size);
 
   // FIXME: Figure out a safe way to use std::move() here.
   for(auto& fn : m_fn_list) {

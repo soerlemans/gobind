@@ -25,16 +25,15 @@ Error gobind_module_create(GobindModule** t_module, const char* t_name)
   if(name_err.m_code != ERROR_OK) {
     error_fail(&error, ERRORMSG_INVALID_GOBIND_MODULE_NAME);
 
-    goto cleanup;
+    gobind_module_free(&ptr);
+  } else {
+    // Set name after validation.
+    ptr->m_name = t_name;
+
+    // Allocate space for the function table.
+    auto& fn_table{ptr->m_fn_table};
+    gobind_function_table_create(&fn_table);
   }
-
-  // Set name after validation.
-  ptr->m_name = t_name;
-
-  return error;
-
-cleanup:
-  gobind_module_free(&ptr);
 
   return error;
 }

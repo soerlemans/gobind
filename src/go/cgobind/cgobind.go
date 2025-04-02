@@ -97,7 +97,7 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	gobindModules := (*C.GobindRegistery)(unsafe.Pointer(voidPtr))
 
 	size := int(gobindModules.m_size)
-	util.Logf("Module count: %d", size)
+	util.Printf("Module count: %d", size)
 
 	cStrs := unsafe.Slice(gobindModules.m_modules, size)
 
@@ -105,7 +105,7 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	for i, cStr := range cStrs {
 		modules[i] = C.GoString(cStr)
 
-		util.Logf("Modules[%d]: %s", i, modules[i])
+		util.Printf("Modules[%d]: %s", i, modules[i])
 	}
 
 	return modules, err
@@ -126,13 +126,6 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (C.GobindModule, error) 
 	util.Logf("Module name: %s", C.GoString(module_.m_name))
 
 	util.Logf("FnTable: %p", module.m_fn_table)
-	// util.Logf("FnTable: %d", fn_table.m_size)
-	// util.Logf("FnTable: %p", fn_table.m_entries)
-	// _ = unsafe.Slice(fn_table.m_entries, int(fn_table.m_size))
-	// fn_array := CPtr2Array(fn_table.m_entries, fn_table.m_size)
-	//for _, fn := range fn_array {
-	//	util.Logf("Function name: %s", C.GoString(fn.m_name))
-	//}
 
 	return module, err
 }

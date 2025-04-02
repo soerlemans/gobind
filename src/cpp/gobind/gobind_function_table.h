@@ -49,7 +49,8 @@ typedef struct {
 } GobindFunctionTable;
 
 // Functions:
-Error gobind_function_table_create(GobindFunctionTable** t_fn_table,
+Error gobind_function_table_create(GobindFunctionTable** t_fn_table);
+Error gobind_function_table_resize(GobindFunctionTable* t_fn_table,
                                    size_t t_size);
 Error gobind_function_table_add(GobindFunctionTable* t_fn_table,
                                 GobindFunction* t_function);

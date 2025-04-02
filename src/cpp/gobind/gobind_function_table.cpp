@@ -32,18 +32,35 @@ auto reallocate(T** array, size_t& capacity) -> void
 
 
 // Functions:
-Error gobind_function_table_create(GobindFunctionTable** t_fn_table,
-                                   size_t t_size)
+Error gobind_function_table_create(GobindFunctionTable** t_fn_table)
 {
   using gobind::malloc;
 
   auto& ptr{*t_fn_table};
   ptr = malloc<GobindFunctionTable>();
-  ptr->m_functions = malloc<GobindFunction>(t_size);
+  ptr->m_functions = malloc<GobindFunction>();
   ptr->m_size = 0;
-  ptr->m_capacity = t_size;
+  ptr->m_capacity = 0;
 
   return {};
+}
+
+Error gobind_function_table_resize(GobindFunctionTable* t_fn_table,
+                                   const size_t t_size)
+{
+  Error error{};
+
+  auto& [functions, size, capacity] = *t_fn_table;
+
+  auto* mem{std::realloc(functions, t_size)};
+  if(mem) {
+    functions = static_cast<GobindFunction*>(mem);
+    capacity = t_size;
+  } else {
+    error_fail(&error, EGB_FUNCTION_TABLE_BAD_ALLOC);
+  }
+
+  return error;
 }
 
 Error gobind_function_table_add(GobindFunctionTable* t_fn_table,
@@ -56,13 +73,10 @@ Error gobind_function_table_add(GobindFunctionTable* t_fn_table,
   // Reallocate if necessary.
   if(size == capacity) {
     const auto new_capacity{capacity * 2};
-    auto* mem{std::realloc(functions, new_capacity)};
-    if(mem) {
-      functions = static_cast<GobindFunction*>(mem);
-      capacity = new_capacity;
-    } else {
-      error_fail(&error, EGB_FUNCTION_TABLE_BAD_ALLOC);
-    }
+
+    const auto resize_error{
+      gobind_function_table_resize(t_fn_table, new_capacity)};
+    error_assert(&resize_error);
   } else if(size >= capacity) {
     error_fail(&error, EGB_FUNCTION_TABLE_BAD_STATE);
   }
