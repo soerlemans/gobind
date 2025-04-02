@@ -28,6 +28,7 @@ Error gobind_module_create(GobindModule** t_module, const char* t_name)
     goto cleanup;
   }
 
+  // Set name after validation.
   ptr->m_name = t_name;
 
   return error;

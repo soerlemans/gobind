@@ -26,7 +26,7 @@ auto GobindModuleFactory::compile_module() -> void
 
   // FIXME: Figure out a safe way to use std::move() here.
   for(auto& fn : m_fn_list) {
-    gobind_function_table_add(&fn_table, &fn);
+    gobind_function_table_add(fn_table, &fn);
   }
 }
 
