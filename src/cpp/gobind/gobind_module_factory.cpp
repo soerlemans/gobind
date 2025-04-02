@@ -1,6 +1,7 @@
 #include "gobind_module_factory.hpp"
 
 // STL Includes:
+#include <iostream>
 
 // Local Includes:
 #include "gobind.h"
@@ -22,9 +23,11 @@ auto GobindModuleFactory::compile_module() -> void
   const auto size{m_fn_list.size()};
   auto& fn_table{m_module->m_fn_table};
 
+  // Resize too the size we need as we already know the size.
   gobind_function_table_resize(fn_table, size);
 
-  // FIXME: Figure out a safe way to use std::move() here.
+  // TODO: We could be more efficient by doing a raw copy.
+  // But this is riskier/less safe.
   for(auto& fn : m_fn_list) {
     gobind_function_table_add(fn_table, &fn);
   }

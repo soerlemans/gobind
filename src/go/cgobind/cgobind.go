@@ -8,6 +8,7 @@ package cgobind
 /*
 #cgo LDFLAGS: -ldl
 // C Includes:
+#include <stdint.h>
 #include <dlfcn.h>
 #include <stdio.h>
 
@@ -76,13 +77,17 @@ func DlClose(t_handle unsafe.Pointer) {
 	C.dlclose(t_handle)
 }
 
-// func CPtr2Array[T any, S C.int | C.size_t](t_ptr *T, t_size S) []T {
-// 	size := int(t_size)
-// 	util.Logf("Size: %d", size)
-// 	array := unsafe.Slice(t_ptr, size)
+type CIntType interface {
+	C.int8_t | C.uint8_t | C.int16_t | C.uint16_t | C.int32_t | C.uint32_t | C.int64_t | C.uint64_t
+}
 
-// 	return array
-// }
+func CPtr2Array[T any, I CIntType](t_ptr *T, t_size I) []T {
+	size := int(t_size)
+	util.Logf("Size: %d", size)
+	array := unsafe.Slice(t_ptr, size)
+
+	return array
+}
 
 // Return the names of registered modules.
 func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
@@ -111,8 +116,8 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 	return modules, err
 }
 
-func InitModule(t_handle unsafe.Pointer, t_name string) (C.GobindModule, error) {
-	var module C.GobindModule
+func InitModule(t_handle unsafe.Pointer, t_name string) (*C.GobindModule, error) {
+	var module *C.GobindModule
 
 	initFunctionName := fmt.Sprintf(GOBIND_INIT_FMT, t_name)
 	util.Logf("Init function: %s", initFunctionName)
@@ -122,10 +127,34 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (C.GobindModule, error) 
 		return module, err
 	}
 
-	module_ := C.call_gobind_module_init(sym)
-	util.Logf("Module name: %s", C.GoString(module_.m_name))
+	modulePtr := C.call_gobind_module_init(sym)
+	module = (*C.GobindModule)(modulePtr)
 
-	util.Logf("FnTable: %p", module.m_fn_table)
+	util.Logf("Module name: %s", C.GoString(module.m_name))
 
 	return module, err
+}
+
+//func freeModule(t_handle, unsafe.Pointer) error {
+//sym, err := DlSym(t_handle, "gobind_module_free")
+//if err != nil {
+//return err
+//}
+//}
+
+func CallFunction(t_module *C.GobindModule, t_name string) error {
+	fn_table := t_module.m_fn_table
+
+	functions := CPtr2Array(fn_table.m_functions, fn_table.m_size)
+
+	for index := 0; index < int(fn_table.m_size); index++ {
+		function := functions[index]
+		C.call_void_func(unsafe.Pointer(function.m_fn))
+
+		if C.GoString(function.m_name) == t_name {
+			C.call_void_func(unsafe.Pointer(function.m_fn))
+		}
+	}
+
+	return nil
 }
