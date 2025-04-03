@@ -27,7 +27,7 @@ const (
 
 // Functions:
 func DlOpen(t_path string) (unsafe.Pointer, error) {
-	handle := C.dlopen(C.CString(t_path), C.RTLD_LAZY_MODE)
+	handle := C.dlopen_lazy(C.CString(t_path))
 	if handle == nil {
 		err_msg := C.dlerror()
 		err := errors.New(C.GoString(err_msg))

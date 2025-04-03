@@ -9,6 +9,7 @@
 
 // STL Includes:
 #include <cassert>
+#include <exception>
 #include <iostream>
 #include <string_view>
 
@@ -53,11 +54,16 @@
     using gobind::GobindModuleFactory;                                  \
     using gobind::valid_module_name;                                    \
     GobindModuleFactory factory{};                                      \
-    const auto error{valid_module_name(#t_name)};                       \
-    error_assert(&error);                                               \
-    factory.create_module(#t_name);                                     \
-    GOBIND_INTERNAL(populate, t_name)(factory);                         \
-    factory.compile_module();                                           \
+    try {                                                               \
+      const auto error{valid_module_name(#t_name)};                     \
+      error_assert(&error);                                             \
+      factory.create_module(#t_name);                                   \
+      GOBIND_INTERNAL(populate, t_name)(factory);                       \
+      factory.compile_module();                                         \
+    } catch(std::exception & e) {                                       \
+      std::cerr << "Error: " << e.what() << '\n';                       \
+      std::exit(ERROR_FAIL);                                            \
+    }                                                                   \
     return factory.get_module();                                        \
   }                                                                     \
   auto GOBIND_INTERNAL(populate,                                        \

@@ -10,32 +10,18 @@
 
 // C Includes:
 #include <dlfcn.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 
-// Library Includes:
-#include "gobind/gobind.h"
+// Local Includes:
+#include "call_helper.h"
 
-// TODO: Clean this shit up.
-
-// RTLD_LAZY is a macro need to export by assigning it.
-const int RTLD_LAZY_MODE = RTLD_LAZY;
-
-//
-typedef void* (*void_fn_ptr)(void);
-
-//
-typedef GobindModule* (*gobind_fn_ptr)(void);
-
-void* call_void_func(void* t_func)
+// Functions:
+//! Helper that uses RTLD_LAZY.
+void* dlopen_lazy(const char* t_filename)
 {
-  return ((void_fn_ptr)t_func)();
+  return dlopen(t_filename, RTLD_LAZY);
 }
-
-GobindModule* call_gobind_module_init(void* t_func)
-{
-  return ((gobind_fn_ptr)t_func)();
-}
-
 
 #endif // CGOBIND_H
