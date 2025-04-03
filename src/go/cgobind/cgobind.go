@@ -90,7 +90,7 @@ type CIntType interface {
 
 func CPtr2Array[ArrayType any, CInt CIntType](t_ptr *ArrayType, t_size CInt) []ArrayType {
 	size := int(t_size)
-	util.Logf("Size: %d", size)
+	util.Logf("Array size: %d", size)
 	array := unsafe.Slice(t_ptr, size)
 
 	return array
@@ -156,8 +156,10 @@ func CallFunction(t_module *C.GobindModule, t_name string) error {
 
 	for index := 0; index < int(fn_table.m_size); index++ {
 		function := functions[index]
-		C.call_void_func(unsafe.Pointer(function.m_fn))
+		functionName := C.GoString(function.m_name)
 
+		util.Logf("Calling function[%d]: %s", index, functionName)
+		C.call_void_func(unsafe.Pointer(function.m_fn))
 	}
 
 	return nil
