@@ -3,6 +3,9 @@
 
 // STL Includes:
 #include <exception>
+#include <iomanip>
+#include <sstream>
+#include <stdexcept>
 #include <type_traits>
 
 // Local Includes:
@@ -20,18 +23,50 @@ constexpr auto pointer_depth() -> int
   }
 }
 
-//! Detect the type.
+/*!
+ * Convert a given type too a @ref GType.
+ * @throw std::invalid_argument When an unsupported type is received.
+ */
 template<typename T>
 auto detect_type() -> GType
 {
-  GType type{};
+  // Type alias to simplify is_same_v usage
+  template<typename T, typename U>
+  using Eq = std::is_same_v<T, U>;
 
-  if constexpr(std::is_same_v<T, void>) {
+  GType type{GTYPE_VOID};
 
-  } else if constexpr(std::is_same_v<T, char>) {
+  if constexpr(Eq<T, void>) {
+    type = GTYPE_VOID;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
+  } else if constexpr(Eq<T, char>) {
+    type = GTYPE_CHAR;
   } else {
-    throw std::invalid_argument{};
+    std::stringstream ss{};
+
+    const auto unsupported_type{typeid(T).name()};
+
+    ss << "Unsupported type ";
+    ss << std::quoted(unsupported_type);
+    ss << ".";
+
+    throw std::invalid_argument{ss.str()};
   }
+
+  return type;
 }
 
 // TODO: Use GobindFunction.
