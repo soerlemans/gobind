@@ -2,7 +2,7 @@
 
 rectangle "C++" as cpp {
   rectangle "C++ user code" as cpp_user_code
-  rectangle "C++ gobind module definition" as cpp_gobind_module_def
+  rectangle "Register C++ functions using GOBIND_MODULE macro" as cpp_gobind_module_def
   rectangle "gobind.hpp" as cpp_gobind_hpp
 
   cpp_user_code -> cpp_gobind_module_def
@@ -18,13 +18,17 @@ rectangle "C API" as c_api {
 
 rectangle "gobind command" as gobind_cmd {
   rectangle "Read shared library created with gobind" as gobind_shared_lib
+  rectangle "Get names of modules from C gobind_modules() function." as gobind_call_gobind_modules
+  rectangle "Append found module names to end of gobind_init_*(), and call to get GolandModule." as gobind_call_gobind_init
   rectangle "Generate Golang module from GolangModule struct" as gobind_gen
 
-  gobind_shared_lib -> gobind_gen
+  gobind_shared_lib -> gobind_call_gobind_modules
+  gobind_call_gobind_modules -> gobind_call_gobind_init
+  gobind_call_gobind_init -> gobind_gen
 }
 
 rectangle "Golang module" as golang_mod {
-  rectangle "Use Golang module in Golang project"
+  rectangle "Use Golang wrapper module in Golang project"
 }
 
 cpp -d-> c_api

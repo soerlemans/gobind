@@ -9,9 +9,14 @@ cmake -S . -B build/ -DGOBIND_EXAMPLES=TRUE
 cmake --build build/ --parallel 4
 ```
 
+Then install a helper CLI program for interpreting shared libraries generated using `gobind`:
+```shell
+go install github.com/soerlemans/gobind@latest
+```
+
 ## Usage
 ```
-// TODO:
+// TODO: Specify how to use gobind program with `// go generate:`.
 ```
 
 Add documentation for the `go generate` to do before we generate the module definition.
