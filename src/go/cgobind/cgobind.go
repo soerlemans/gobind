@@ -78,10 +78,17 @@ func DlClose(t_handle unsafe.Pointer) {
 }
 
 type CIntType interface {
-	C.int8_t | C.uint8_t | C.int16_t | C.uint16_t | C.int32_t | C.uint32_t | C.int64_t | C.uint64_t
+	C.int8_t |
+		C.uint8_t |
+		C.int16_t |
+		C.uint16_t |
+		C.int32_t |
+		C.uint32_t |
+		C.int64_t |
+		C.uint64_t
 }
 
-func CPtr2Array[T any, I CIntType](t_ptr *T, t_size I) []T {
+func CPtr2Array[ArrayType any, CInt CIntType](t_ptr *ArrayType, t_size CInt) []ArrayType {
 	size := int(t_size)
 	util.Logf("Size: %d", size)
 	array := unsafe.Slice(t_ptr, size)
@@ -151,9 +158,6 @@ func CallFunction(t_module *C.GobindModule, t_name string) error {
 		function := functions[index]
 		C.call_void_func(unsafe.Pointer(function.m_fn))
 
-		if C.GoString(function.m_name) == t_name {
-			C.call_void_func(unsafe.Pointer(function.m_fn))
-		}
 	}
 
 	return nil
