@@ -1,9 +1,3 @@
-// STL Includes:
-#include <iostream>
-
-// Library Includes:
-#include <gobind/gobind.hpp>
-
 /*!
  * @file
  * Windows: uses various calling conventions.
@@ -12,6 +6,13 @@
  * So in order to support Windows we need to check which calling conventions.
  * Golang supports besides cdecl.
  */
+
+// STL Includes:
+#include <iostream>
+
+// Library Includes:
+#include <gobind/gobind.hpp>
+
 
 // Macros:
 #ifdef _WIN32

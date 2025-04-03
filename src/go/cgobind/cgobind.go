@@ -6,31 +6,10 @@ package cgobind
 // TODO: For the cgo part we need to do some more thinking.
 
 /*
+#cgo CFLAGS: -I ../../cpp/
 #cgo LDFLAGS: -ldl
-// C Includes:
-#include <stdint.h>
-#include <dlfcn.h>
-#include <stdio.h>
 
-#include "/home/hackerman/Projects/Git/Personal/gobind/src/cpp/gobind/gobind.h"
-
-// RTLD_LAZY is a macro need to export by assigning it.
-const int RTLD_LAZY_MODE = RTLD_LAZY;
-
-//
-typedef void* (*void_fn_ptr)(void);
-
-//
-typedef GobindModule* (*gobind_fn_ptr)(void);
-
-void* call_void_func(void* t_func) {
-    return ((void_fn_ptr)t_func)();
-}
-
-GobindModule* call_gobind_module_init(void* t_func) {
-    return ((gobind_fn_ptr)t_func)();
-}
-
+#include "cgobind.h"
 */
 import "C"
 
