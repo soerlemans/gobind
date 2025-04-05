@@ -5,4 +5,5 @@ target_sources(${TARGET_GOBIND} PRIVATE
   gobind_module.cpp
   gobind_module_factory.cpp
   gobind_function_table.cpp
+  gobind_type.cpp
 )

@@ -7,6 +7,22 @@ extern "C" {
 
 // C Includes:
 #include <stdbool.h>
+#include <stdlib.h>
+
+// Local Includes:
+#include "error.h"
+
+// Macros:
+/*!
+ * This is enough space for "const unsigned long long" (28).
+ * And a ton of pointer indirection.
+ * This value is intended as a guideline unless you have an insanely long type.
+ * Which is supported by Gobind in the @ref GType enum.
+ */
+#define GOBIND_TYPE_MAX_STR_LENGTH (256)
+
+#define ERRORMSG_TOO_LONG_GTYPE_STR \
+  ("Not enough space in buffer for storing gtype string.")
 
 // Enums:
 /*!
@@ -58,6 +74,10 @@ struct GobindType {
   GType m_type;
   int m_pointer;
 };
+
+// Functions:
+const char* gtype2str(GType t_gtype);
+Error gobindtype2str(GobindType* t_gobind_type, char* t_buf, size_t t_size);
 
 #ifdef __cplusplus
 }

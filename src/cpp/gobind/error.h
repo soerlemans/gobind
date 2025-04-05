@@ -6,7 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 // Enums:
-//!
+//! Keeps track of error values.
 enum {
   ERROR_OK = 0,
   ERROR_FAIL = 1
