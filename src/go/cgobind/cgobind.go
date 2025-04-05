@@ -137,7 +137,15 @@ func CallFunction(t_module *C.GobindModule, t_name string) error {
 		function := functions[index]
 		functionName := C.GoString(function.m_name)
 
-		util.Logf("Param count: %d", function.m_params_size)
+		// ---
+		return_type_str := C.GoString(C.gtype2str(function.m_return_type.m_type))
+		sym, err := DlSym(t_handle, "gtyp2str")
+		if err != nil {
+			return err
+		}
+		return_type_str := C.GoString(C.call_gtyp2str(sym, function.m_return_type.m_type))
+		util.Logf("Return type: %s", &return_type_str)
+		// ---
 
 		util.Logf("Calling function[%d]: %s", index, functionName)
 		C.call_void_func(unsafe.Pointer(function.m_fn))
