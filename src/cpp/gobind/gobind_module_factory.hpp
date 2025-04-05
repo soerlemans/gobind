@@ -18,6 +18,7 @@
 
 // Local Includes:
 #include "gobind.h"
+#include "gobind_type_identify.hpp"
 
 namespace gobind {
 // Aliases:
@@ -52,6 +53,19 @@ template<typename Ret, typename... Args>
 auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 {
   // using CFnPtr = Ret (*)(Args...);
+
+  const auto sym{sym_identify<Ret>()};
+  const auto args{args_identify<Args...>()};
+
+  for(auto&& sym : args) {
+    // clang-format off
+    std::cout << "Name: " << t_name
+	      << " Sym: " << ((sym.m_constant) ? "const " : "" )
+	      << gtype2str(sym.m_type)
+	      << ' ' << ((sym.m_pointer > 0) ? "*" : "")
+	      << '\n';
+    // clang-format on
+  }
 
   GobindFunction fn{};
   fn.m_name = t_name;

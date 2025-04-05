@@ -31,6 +31,7 @@ extern "C" {
  * That way we can generate function signatures for the golang templates.
  */
 enum GType {
+  // Misc:
   GTYPE_VOID,
   GTYPE_CHAR,
 
