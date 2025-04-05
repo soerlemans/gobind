@@ -16,6 +16,7 @@ extern "C" {
 
 // Local Includes:
 #include "error.h"
+#include "gobind_type.h"
 
 // Macros:
 #define GOBIND_FUNCTION_TABLE_DEFAULT_CAPACITY_SIZE (10)
@@ -32,11 +33,9 @@ typedef void (*VoidFnPtr)(void);
 typedef struct {
   const char* m_name;
   VoidFnPtr m_fn;
-  // TODO: Insert Enum field for return type.
-  // TODO: Insert Enum array field for parameters.
-  // CppType m_return_type;
-  // CppType* m_params;
-  // size_t m_params_size;
+  GobindType m_return_type;
+  GobindType* m_params;
+  size_t m_params_size;
 } GobindFunction;
 
 /*!
