@@ -96,7 +96,15 @@ void gobind_function_table_free(GobindFunctionTable** t_fn_table)
   // FIXME: Then check if fn_table_ptr is nullptr (prevent double free).
   auto& fn_table_ptr{*t_fn_table};
 
-  // Free function table array and the the struct itself.
+  auto& functions{fn_table_ptr->m_functions};
+  auto& size{fn_table_ptr->m_size};
+
+  // Free gobind type array, function table array and the the struct itself.
+  for(size_t index{0}; index < size; index++) {
+    auto& params{functions[index].m_params};
+    std::free(params);
+  }
+
   std::free(fn_table_ptr->m_functions);
   std::free(fn_table_ptr);
 

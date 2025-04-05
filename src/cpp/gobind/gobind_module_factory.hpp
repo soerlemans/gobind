@@ -17,12 +17,13 @@
 #include <vector>
 
 // Local Includes:
+#include "alloc.hpp"
 #include "gobind.h"
 #include "gobind_type_identify.hpp"
 
 namespace gobind {
 // Aliases:
-using FunctionList = std::vector<GobindFunction>;
+using FunctionVec = std::vector<GobindFunction>;
 
 // Classes:
 class GobindModuleFactory {
@@ -30,7 +31,7 @@ class GobindModuleFactory {
   GobindModule* m_module;
 
   //! Calculate how many functions are needed.
-  FunctionList m_fn_list;
+  FunctionVec m_fn_list;
 
   public:
   GobindModuleFactory() = default;
@@ -52,24 +53,27 @@ class GobindModuleFactory {
 template<typename Ret, typename... Args>
 auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 {
-  // using CFnPtr = Ret (*)(Args...);
+  const auto ret{sym_identify<Ret>()};
+  const auto params{args_identify<Args...>()};
 
-  const auto sym{sym_identify<Ret>()};
-  const auto args{args_identify<Args...>()};
-
-  for(auto&& sym : args) {
+  for(auto&& sym : params) {
     // clang-format off
     std::cout << "Name: " << t_name
-	      << " Sym: " << ((sym.m_constant) ? "const " : "" )
+	      << " Param: " << ((sym.m_constant) ? "const " : "" )
 	      << gtype2str(sym.m_type)
 	      << ' ' << ((sym.m_pointer > 0) ? "*" : "")
 	      << '\n';
     // clang-format on
   }
 
+  const auto size{params.size()};
+
   GobindFunction fn{};
   fn.m_name = t_name;
   fn.m_fn = (VoidFnPtr)t_fn;
+  fn.m_return_type = ret;
+  fn.m_params = gobind::malloc<GobindType>(size);
+  fn.m_params_size = size;
 
   m_fn_list.push_back(std::move(fn));
 

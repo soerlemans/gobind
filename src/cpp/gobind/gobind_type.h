@@ -30,7 +30,7 @@ extern "C" {
  * Used for encoding into @ref GobindFunction.
  * That way we can generate function signatures for the golang templates.
  */
-enum GType {
+typedef enum {
   // Misc:
   GTYPE_VOID,
   GTYPE_CHAR,
@@ -62,7 +62,7 @@ enum GType {
   GTYPE_UINT16,
   GTYPE_UINT32,
   GTYPE_UINT64
-};
+} GType;
 
 // Structs:
 /*!
@@ -70,11 +70,11 @@ enum GType {
  *
  * @note An int is used for m_pointer as there can be levels of indirection.
  */
-struct GobindType {
+typedef struct {
   bool m_constant;
   GType m_type;
   int m_pointer;
-};
+} GobindType;
 
 // Functions:
 const char* gtype2str(GType t_gtype);

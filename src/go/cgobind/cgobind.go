@@ -137,6 +137,8 @@ func CallFunction(t_module *C.GobindModule, t_name string) error {
 		function := functions[index]
 		functionName := C.GoString(function.m_name)
 
+		util.Logf("Param count: %d", function.m_params_size)
+
 		util.Logf("Calling function[%d]: %s", index, functionName)
 		C.call_void_func(unsafe.Pointer(function.m_fn))
 	}
