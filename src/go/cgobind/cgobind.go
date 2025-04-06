@@ -20,8 +20,8 @@ import (
 	"os"
 	"unsafe"
 
-	_ "github.com/soerlemans/gobind/cgobind/c_wrapper"
-	"github.com/soerlemans/gobind/util"
+	_ "github.com/soerlemans/gobind/src/go/cgobind/c_wrapper"
+	"github.com/soerlemans/gobind/src/go/util"
 )
 
 // Globals:
