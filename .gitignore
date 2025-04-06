@@ -5,6 +5,9 @@ build/
 gobind
 !gobind/
 
+# Omit default directory for module creation.
+gbmod/
+
 # C++:
 # Prerequisites
 *.d

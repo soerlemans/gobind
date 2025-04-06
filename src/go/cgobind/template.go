@@ -14,15 +14,18 @@ import "C"
 
 // Regular Imports:
 import (
-	//	"text/template"
 	//	"unsafe"
+	"os"
+	"text/template"
+
 	_ "github.com/soerlemans/gobind/cgobind/c_wrapper"
 	"github.com/soerlemans/gobind/util"
 )
 
 // Globals:
 const (
-	PROLOGUE = `package {{.Package}}
+	MODULE_TEMPLATE = `package {{.Package}}
+
 /*
 #cgo CFLAGS: -I {{OutputDir}}/include/
 #cgo LDFLAGS: -ldl
@@ -31,28 +34,72 @@ const (
 #include "cgobind.h"
 */
 import "C"
-`
 
-	FUNC_TEMPLATE = `func {{.Name}}() {{.ReturnType}} {}`
+// Functions:
+{{range .Functions}}
+func {{.Name}}({{.Params}}) {{.ReturnType}} {
+    return nil
+}
+{{end}}
+`
 )
 
 // Structs:
-type PrologueData struct {
-	Package   string ``
-	OutputDir string ``
-}
-
 type FunctionData struct {
-	Package   string ``
-	OutputDir string ``
+	Name       string
+	Params     string
+	ReturnType string
 }
 
-func prologue(t_module *C.GobindModule) {}
-func epilogue(t_module *C.GobindModule) {}
+type TemplateData struct {
+	Package   string
+	Functions []FunctionData
+}
 
+// Struct TemplateContext:
+type TemplateContext struct {
+	Module *C.GobindModule    ``
+	File   *os.File           ``
+	Tmpl   *template.Template ``
+}
+
+// Methods TemplateContext:
+func (this *TemplateContext) Write(t_data TemplateData) error {
+	return this.Tmpl.Execute(this.File, t_data)
+}
+
+func (this *TemplateContext) Close() {
+	this.File.Close()
+}
+
+// Factory functions TemplateContext:
+func newTemplateContext(t_module *C.GobindModule, t_modulePath string) (TemplateContext, error) {
+	// Create the C header file
+	moduleFile, err := os.Create(t_modulePath)
+	if err != nil {
+		return TemplateContext{}, err
+	}
+
+	ctx := TemplateContext{t_module, moduleFile, nil}
+	ctx.Tmpl, err = template.New(t_modulePath).Parse(MODULE_TEMPLATE)
+	if err != nil {
+		return ctx, err
+	}
+
+	return ctx, nil
+}
+
+// Functions:
 func generate(t_module *C.GobindModule, t_modulePath string) error {
 	util.Logf("Module path: %s", t_modulePath)
 
-	return nil
+	ctx, err := newTemplateContext(t_module, t_modulePath)
+	if err != nil {
+		return err
+	}
+	defer ctx.Close()
 
+	// ctx.Write()
+
+	return nil
 }
