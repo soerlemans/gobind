@@ -15,8 +15,27 @@ go install github.com/soerlemans/gobind@latest
 ```
 
 ## Usage
+First define a module:
+```cpp
+// STL Includes:
+#include <iostream>
+
+// Library Includes:
+#include <gobind/gobind.hpp>
+
+auto hello_world() -> void
+{
+  std::cout << "Hello World!\n";
+}
+
+// Define  the simple module for the add function.
+GOBIND_MODULE(hello_world, m)
+{
+  m.def("HelloWorld", &hello_world);
+}
 ```
-// TODO: Specify how to use gobind program with `// go generate:`.
+
+```go
 ```
 
 Add documentation for the `go generate` to do before we generate the module definition.

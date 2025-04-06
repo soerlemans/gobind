@@ -8,6 +8,9 @@ gobind
 # Omit default directory for module creation.
 gbmod/
 
+# Do not omit golang module files.
+!go.mod
+
 # C++:
 # Prerequisites
 *.d
@@ -28,7 +31,7 @@ gbmod/
 *.dll
 
 # Fortran module files
-*.mod
+# *.mod
 *.smod
 
 # Compiled Static libraries
