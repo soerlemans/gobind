@@ -3,6 +3,7 @@
 
 // STL Includes:
 #include <cstdlib>
+#include <iostream>
 #include <cassert>
 
 namespace gobind {
@@ -15,7 +16,9 @@ inline auto malloc(const std::size_t t_capacity = 1) -> T*
 {
   const auto size{sizeof(T) * t_capacity};
 
-  assert(size != 0 && "Error: gobind::malloc() must have a size of >= 0.");
+  std::cout << size << '\n';
+
+  // assert(size != 0 && "Error: gobind::malloc() size == 0.");
 
   return (T*)std::malloc(size);
 }

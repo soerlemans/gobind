@@ -78,7 +78,7 @@ func (this *TemplateContext) ExtractFunctionData() []FunctionData {
 		function := functionArray[index]
 		functionName := C.GoString(function.m_name)
 
-		functions[index] = FunctionData{functionName, "", "void"}
+		functions[index] = FunctionData{functionName, "", ""}
 	}
 
 	return functions
@@ -103,12 +103,13 @@ func (this *TemplateContext) Close() {
 
 // Factory functions TemplateContext:
 func newTemplateContext(t_module *C.GobindModule, t_modulePath string) (TemplateContext, error) {
-	// Create the C header file
+	// Create the golang module file.
 	moduleFile, err := os.Create(t_modulePath)
 	if err != nil {
 		return TemplateContext{}, err
 	}
 
+	// Create the template context.
 	ctx := TemplateContext{t_module, moduleFile, nil}
 	ctx.Tmpl, err = template.New(t_modulePath).Parse(MODULE_TEMPLATE)
 	if err != nil {
