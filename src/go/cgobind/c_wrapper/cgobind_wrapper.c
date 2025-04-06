@@ -1,18 +1,10 @@
-#ifndef CALL_HELPER_H
-#define CALL_HELPER_H
-
-/*!
- * @file
- */
-
-// Library Includes:
-#include <gobind/gobind.h>
+#include "cgobind_wrapper.h"
 
 // Typedefs:
 typedef void* (*void_fn_ptr)(void);
 typedef GobindRegistery* (*registered_modules_fn_ptr)(void);
 typedef GobindModule* (*gobind_fn_ptr)(void);
-typedef const char* (*cstr_fn_ptr)(void);
+typedef const char* (*cstr_fn_ptr)(void); // TODO: Use.
 typedef const char* (*gtype2str_fn_ptr)(GType);
 
 // Functions:
@@ -35,5 +27,3 @@ const char* call_gtype2str(void* t_func, const GType t_type)
 {
   return ((gtype2str_fn_ptr)t_func)(t_type);
 }
-
-#endif // CALL_HELPER_H

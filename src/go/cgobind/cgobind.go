@@ -6,11 +6,10 @@ package cgobind
 // TODO: For the cgo part we need to do some more thinking.
 
 /*
-#cgo CFLAGS: -I include/ -I ../../cpp/
+#cgo CFLAGS: -I c_wrapper/ -I ../../cpp/
 #cgo LDFLAGS: -ldl
 
 // C Includes:
-#include "cgobind.h"
 #include "cgobind_wrapper.h"
 */
 import "C"
@@ -18,8 +17,11 @@ import "C"
 import (
 	"errors"
 	"fmt"
-	"github.com/soerlemans/gobind/util"
+	"os"
 	"unsafe"
+
+	_ "github.com/soerlemans/gobind/cgobind/c_wrapper"
+	"github.com/soerlemans/gobind/util"
 )
 
 // Globals:
@@ -122,13 +124,16 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (*C.GobindModule, error)
 	return module, err
 }
 
-//func freeModule(t_handle, unsafe.Pointer) error {
-//sym, err := DlSym(t_handle, "gobind_module_free")
-//if err != nil {
-//return err
-//}
-//}
+/*
+func freeModule(t_handle, unsafe.Pointer) error {
+sym, err := DlSym(t_handle, "gobind_module_free")
+if err != nil {
+return err
+}
+}
+*/
 
+/*
 func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name string) error {
 	fn_table := t_module.m_fn_table
 
@@ -138,7 +143,6 @@ func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name stri
 		function := functions[index]
 		functionName := C.GoString(function.m_name)
 
-		/*
 		sym, err := DlSym(t_handle, "gtype2str")
 		if err != nil {
 			return err
@@ -148,10 +152,67 @@ func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name stri
 		go_str := C.GoString(rt_str)
 
 		util.Logf("Return type: %T", function.m_return_type.m_type)
-		*/
 
 		util.Logf("Calling function[%d]: %s", index, functionName)
 		C.call_void_func(unsafe.Pointer(function.m_fn))
+	}
+
+	return nil
+}
+*/
+
+func walkModules(t_handle unsafe.Pointer, t_registeredModules []string, t_outputDir string) error {
+	for _, name := range t_registeredModules {
+		// Obtain the module.
+		module, err := InitModule(t_handle, name)
+		if err != nil {
+			return err
+		}
+
+		// FIXME: Free the module.
+		// defer freeModule(module)
+
+		// Create the golang module path.
+		modulePath := fmt.Sprintf("%s%s.go", t_outputDir, name)
+
+		err = generate(module, modulePath)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func Bind(t_libraryPath string, t_outputDir string) error {
+	// Load the shared library handle.
+	handle, err := DlOpen(t_libraryPath)
+	if err != nil {
+		return err
+	}
+
+	defer DlClose(handle)
+
+	// Get names of the modules that where registered.
+	registeredModules, err := RegisteredModules(handle)
+	if err != nil {
+		return err
+	}
+
+	// Create output directory.
+	size := len(t_outputDir)
+	lastChar := t_outputDir[size-1]
+	if lastChar != '/' {
+		t_outputDir += "/"
+
+	}
+
+	os.Mkdir(t_outputDir, 0755)
+
+	// walkModules and create the modules.
+	err = walkModules(handle, registeredModules, t_outputDir)
+	if err != nil {
+		return err
 	}
 
 	return nil
