@@ -128,7 +128,7 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (*C.GobindModule, error)
 //}
 //}
 
-func CallFunction(t_module *C.GobindModule, t_name string) error {
+func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name string) error {
 	fn_table := t_module.m_fn_table
 
 	functions := CPtr2Array(fn_table.m_functions, fn_table.m_size)
@@ -138,13 +138,15 @@ func CallFunction(t_module *C.GobindModule, t_name string) error {
 		functionName := C.GoString(function.m_name)
 
 		// ---
-		return_type_str := C.GoString(C.gtype2str(function.m_return_type.m_type))
-		sym, err := DlSym(t_handle, "gtyp2str")
+		sym, err := DlSym(t_handle, "gtype2str")
 		if err != nil {
 			return err
 		}
-		return_type_str := C.GoString(C.call_gtyp2str(sym, function.m_return_type.m_type))
-		util.Logf("Return type: %s", &return_type_str)
+
+		C.call_gtype2str(sym, function.m_return_type.m_type)
+		// go_str := C.GoString(rt_str)
+
+		util.Logf("Return type: %T", function.m_return_type.m_type)
 		// ---
 
 		util.Logf("Calling function[%d]: %s", index, functionName)

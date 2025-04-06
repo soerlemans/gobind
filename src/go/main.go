@@ -18,7 +18,7 @@ func walkModules(t_handle unsafe.Pointer, t_registeredModules []string) error {
 			return err
 		}
 
-		err = cgobind.CallFunction(module, "hello_world")
+		err = cgobind.CallFunction(t_handle, module, "hello_world")
 		if err != nil {
 			return err
 		}
