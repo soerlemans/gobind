@@ -37,6 +37,10 @@ const (
 import "C"
 
 // Functions:
+func init() {
+    // fmt.Printf("Initializing %s...", "{{.Package}}")
+    // TODO: Load dynamic library module into globals.
+}
 {{range .Functions}}
 func {{.Name}}({{.Params}}) {{.ReturnType}} {
     return nil
@@ -120,6 +124,8 @@ func newTemplateContext(t_module *C.GobindModule, t_modulePath string) (Template
 }
 
 // Functions:
+// TODO: We also need the library path in order to understand where to depend on.
+// After we have generated the library.
 func generate(t_module *C.GobindModule, t_modulePath string) error {
 	util.Logf("Module path: %s", t_modulePath)
 

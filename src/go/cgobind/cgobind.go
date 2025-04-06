@@ -29,6 +29,20 @@ const (
 	GOBIND_INIT_FMT = "gobind_init_%s"
 )
 
+// Constraint
+type CIntType interface {
+	C.int8_t |
+		C.uint8_t |
+		C.int16_t |
+		C.uint16_t |
+		C.int32_t |
+		C.uint32_t |
+		C.int64_t |
+		C.uint64_t
+}
+
+
+
 // Functions:
 func DlOpen(t_path string) (unsafe.Pointer, error) {
 	handle := C.dlopen_lazy(C.CString(t_path))
@@ -58,17 +72,6 @@ func DlSym(t_handle unsafe.Pointer, t_symbol_name string) (unsafe.Pointer, error
 
 func DlClose(t_handle unsafe.Pointer) {
 	C.dlclose(t_handle)
-}
-
-type CIntType interface {
-	C.int8_t |
-		C.uint8_t |
-		C.int16_t |
-		C.uint16_t |
-		C.int32_t |
-		C.uint32_t |
-		C.int64_t |
-		C.uint64_t
 }
 
 func CPtr2Array[ArrayType any, CInt CIntType](t_ptr *ArrayType, t_size CInt) []ArrayType {
@@ -199,7 +202,7 @@ func Bind(t_libraryPath string, t_outputDir string) error {
 		return err
 	}
 
-	// Create output directory.
+	// Make sure that the output directory ends in a slash.
 	size := len(t_outputDir)
 	lastChar := t_outputDir[size-1]
 	if lastChar != '/' {
@@ -207,6 +210,7 @@ func Bind(t_libraryPath string, t_outputDir string) error {
 
 	}
 
+	// Create output directory.
 	os.Mkdir(t_outputDir, 0755)
 
 	// walkModules and create the modules.
