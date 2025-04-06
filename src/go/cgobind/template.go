@@ -22,12 +22,13 @@ import (
 	"github.com/soerlemans/gobind/util"
 )
 
+// TODO: Figure this out.
+// #cgo CFLAGS: -I {{OutputDir}}/include/
+
 // Globals:
 const (
 	MODULE_TEMPLATE = `package {{.Package}}
-
 /*
-#cgo CFLAGS: -I {{OutputDir}}/include/
 #cgo LDFLAGS: -ldl
 
 // C wrapper includes:
@@ -64,8 +65,36 @@ type TemplateContext struct {
 }
 
 // Methods TemplateContext:
-func (this *TemplateContext) Write(t_data TemplateData) error {
-	return this.Tmpl.Execute(this.File, t_data)
+func (this *TemplateContext) ExtractFunctionData() []FunctionData {
+	var functions []FunctionData
+
+	functionTable := this.Module.m_fn_table
+	functionTableSize := int(functionTable.m_size)
+
+	functions = make([]FunctionData, functionTableSize)
+
+	functionArray := CPtr2Array(functionTable.m_functions, functionTable.m_size)
+	for index := 0; index < functionTableSize; index++ {
+		function := functionArray[index]
+		functionName := C.GoString(function.m_name)
+
+		functions[index] = FunctionData{functionName, "", "void"}
+	}
+
+	return functions
+}
+
+func (this *TemplateContext) ExtractTemplateData() TemplateData {
+	moduleName := C.GoString(this.Module.m_name)
+	functionData := this.ExtractFunctionData()
+
+	return TemplateData{moduleName, functionData}
+}
+
+func (this *TemplateContext) Write() error {
+	data := this.ExtractTemplateData()
+
+	return this.Tmpl.Execute(this.File, data)
 }
 
 func (this *TemplateContext) Close() {
@@ -99,7 +128,7 @@ func generate(t_module *C.GobindModule, t_modulePath string) error {
 	}
 	defer ctx.Close()
 
-	// ctx.Write()
+	return ctx.Write()
 
-	return nil
+	// return nil
 }
