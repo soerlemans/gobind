@@ -15,7 +15,7 @@ go install github.com/soerlemans/gobind@latest
 ```
 
 ## Usage
-First define a module:
+First you need to compile a 
 ```cpp
 // STL Includes:
 #include <iostream>
