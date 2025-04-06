@@ -8,7 +8,6 @@ import (
 	"github.com/soerlemans/gobind/cgobind"
 	"github.com/soerlemans/gobind/util"
 	"unsafe"
-	// "text/template"
 )
 
 func walkModules(t_handle unsafe.Pointer, t_registeredModules []string) error {

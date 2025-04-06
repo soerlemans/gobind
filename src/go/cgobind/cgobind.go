@@ -6,10 +6,12 @@ package cgobind
 // TODO: For the cgo part we need to do some more thinking.
 
 /*
-#cgo CFLAGS: -I ../../cpp/
+#cgo CFLAGS: -I include/ -I ../../cpp/
 #cgo LDFLAGS: -ldl
 
+// C Includes:
 #include "cgobind.h"
+#include "cgobind_wrapper.h"
 */
 import "C"
 
@@ -84,8 +86,7 @@ func RegisteredModules(t_handle unsafe.Pointer) ([]string, error) {
 		return modules, err
 	}
 
-	voidPtr := C.call_void_func(sym)
-	gobindModules := (*C.GobindRegistery)(unsafe.Pointer(voidPtr))
+	gobindModules := C.call_registered_modules(sym)
 
 	size := int(gobindModules.m_size)
 	util.Printf("Module count: %d", size)
@@ -137,17 +138,17 @@ func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name stri
 		function := functions[index]
 		functionName := C.GoString(function.m_name)
 
-		// ---
+		/*
 		sym, err := DlSym(t_handle, "gtype2str")
 		if err != nil {
 			return err
 		}
 
 		C.call_gtype2str(sym, function.m_return_type.m_type)
-		// go_str := C.GoString(rt_str)
+		go_str := C.GoString(rt_str)
 
 		util.Logf("Return type: %T", function.m_return_type.m_type)
-		// ---
+		*/
 
 		util.Logf("Calling function[%d]: %s", index, functionName)
 		C.call_void_func(unsafe.Pointer(function.m_fn))

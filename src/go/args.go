@@ -11,7 +11,7 @@ import (
 // Arguments Struct:
 type Arguments struct {
 	InputFile string `arg:"-f,--file" help:"Path to file containing queries."`
-	OutputDir string `arg:"-o,--output" help:"Write to output directory instead of current directory." default:""`
+	OutputDir string `arg:"-o,--output" help:"Write to output directory instead of current directory." default:"gbmod/"`
 }
 
 // Arguments Methods:

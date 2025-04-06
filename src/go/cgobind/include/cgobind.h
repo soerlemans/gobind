@@ -14,8 +14,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// Local Includes:
-#include "call_helper.h"
+// Library Includes:
+#include <gobind/gobind.h>
 
 // Functions:
 //! Helper that uses RTLD_LAZY.
