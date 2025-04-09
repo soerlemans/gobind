@@ -1,2 +1,2 @@
 # Add subdirectories:
-add_subdirectory(cpp)
+add_subdirectory(lib)

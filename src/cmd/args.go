@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"github.com/alexflint/go-arg"
-	"github.com/soerlemans/gobind/cmd/gobind/util"
+	"github.com/soerlemans/gobind/cmd/util"
 	"os"
 )
 

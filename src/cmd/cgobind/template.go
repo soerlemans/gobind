@@ -4,7 +4,7 @@ This will contain the API for loading the bindings generated from the C++ side.
 package cgobind
 
 /*
-#cgo CFLAGS: -I c_wrapper/ -I ../../cpp/
+#cgo CFLAGS: -I c_wrapper/ -I ../../lib/
 #cgo LDFLAGS: -ldl
 
 // C Includes:
@@ -18,8 +18,8 @@ import (
 	"os"
 	"text/template"
 
-	_ "github.com/soerlemans/gobind/cmd/gobind/cgobind/c_wrapper"
-	"github.com/soerlemans/gobind/cmd/gobind/util"
+	_ "github.com/soerlemans/gobind/cmd/cgobind/c_wrapper"
+	"github.com/soerlemans/gobind/cmd/util"
 )
 
 // TODO: Figure this out.

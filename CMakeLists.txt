@@ -43,19 +43,19 @@ set_target_properties(
 # Define include directories for headers
 target_include_directories(
   ${TARGET_GOBIND} PUBLIC
-  src/cpp/
+  src/lib/
 )
 
 # TODO: Move to cmake/install.cmake.
 # Installation rules:
 install(
-  DIRECTORY src/cpp/gobind
+  DIRECTORY src/lib/gobind
   DESTINATION include
   FILES_MATCHING PATTERN "*.h"
 )
 
 install(
-  DIRECTORY src/cpp/gobind
+  DIRECTORY src/lib/gobind
   DESTINATION include
   FILES_MATCHING PATTERN "*.hpp"
 )
