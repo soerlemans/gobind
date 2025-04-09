@@ -6,7 +6,7 @@ package cgobind
 // TODO: For the cgo part we need to do some more thinking.
 
 /*
-#cgo CFLAGS: -I c_wrapper/ -I ../../lib/
+#cgo CFLAGS: -I c_wrapper/ -I ../../../lib/
 #cgo LDFLAGS: -ldl
 
 // C Includes:
@@ -20,8 +20,8 @@ import (
 	"os"
 	"unsafe"
 
-	_ "github.com/soerlemans/gobind/cmd/cgobind/c_wrapper"
-	"github.com/soerlemans/gobind/cmd/util"
+	_ "github.com/soerlemans/gobind/src/cmd/gobind/cgobind/c_wrapper"
+	"github.com/soerlemans/gobind/src/cmd/gobind/util"
 )
 
 // Globals:
