@@ -36,6 +36,9 @@ const (
 */
 import "C"
 
+// Globals:
+make(map[string]C.GobindFunction)
+
 // Functions:
 func init() {
     // fmt.Printf("Initializing %s...", "{{.Package}}")
