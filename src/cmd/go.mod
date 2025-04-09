@@ -1,4 +1,4 @@
-module github.com/soerlemans/gobind/src/go
+module github.com/soerlemans/gobind/cmd/gobind
 
 go 1.24.0
 

@@ -20,8 +20,8 @@ import (
 	"os"
 	"unsafe"
 
-	_ "github.com/soerlemans/gobind/src/go/cgobind/c_wrapper"
-	"github.com/soerlemans/gobind/src/go/util"
+	_ "github.com/soerlemans/gobind/cmd/gobind/cgobind/c_wrapper"
+	"github.com/soerlemans/gobind/cmd/gobind/util"
 )
 
 // Globals:
@@ -40,8 +40,6 @@ type CIntType interface {
 		C.int64_t |
 		C.uint64_t
 }
-
-
 
 // Functions:
 func DlOpen(t_path string) (unsafe.Pointer, error) {

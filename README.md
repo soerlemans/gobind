@@ -3,7 +3,7 @@ Gobind
 C++ library for exposing C++ functions to Golang.
 
 ## Build
-Build using the following:
+Build using the following (installs to `/usr/local/`):
 ```shell
 cmake -S . -B build/ -DGOBIND_EXAMPLES=TRUE
 cmake --build build/ --parallel 4
@@ -16,7 +16,7 @@ go install github.com/soerlemans/gobind@latest
 ```
 
 ## Usage
-First you need to compile a 
+First you need to compile a shared library that uses the gobind library:
 ```cpp
 // STL Includes:
 #include <iostream>
@@ -36,7 +36,9 @@ GOBIND_MODULE(hello_world, m)
 }
 ```
 
+Then add the following `go generate`.
 ```go
+// gobind -i <path to C++ library>
 ```
 
 Add documentation for the `go generate` to do before we generate the module definition.

@@ -4,8 +4,8 @@ This will contain the API for loading the bindings generated from the C++ side.
 package main
 
 import (
-	"github.com/soerlemans/gobind/src/go/cgobind"
-	"github.com/soerlemans/gobind/src/go/util"
+	"github.com/soerlemans/gobind/cmd/gobind/cgobind"
+	"github.com/soerlemans/gobind/cmd/gobind/util"
 )
 
 func main() {

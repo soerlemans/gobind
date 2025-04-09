@@ -4,13 +4,13 @@ package main
 import (
 	"fmt"
 	"github.com/alexflint/go-arg"
-	"github.com/soerlemans/gobind/src/go/util"
+	"github.com/soerlemans/gobind/cmd/gobind/util"
 	"os"
 )
 
 // Arguments Struct:
 type Arguments struct {
-	InputFile string `arg:"-f,--file" help:"Path to file containing queries."`
+	InputFile string `arg:"-i,--input-file" help:"Path to file containing queries."`
 	OutputDir string `arg:"-o,--output" help:"Write to output directory instead of current directory." default:"gbmod/"`
 }
 
