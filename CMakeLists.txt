@@ -46,18 +46,29 @@ target_include_directories(
   src/cpp/
 )
 
-# Export the library for installation
-#install(
-#  TARGETS gobind
-#  LIBRARY DESTINATION lib
-#  ARCHIVE DESTINATION lib
-#)
-#
-#install(
-#  DIRECTORY src/cpp/
-#  DESTINATION include/
-#)
+# TODO: Move to cmake/install.cmake.
+# Installation rules:
+install(
+  DIRECTORY src/cpp/gobind
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.h"
+)
 
+install(
+  DIRECTORY src/cpp/gobind
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.hpp"
+)
+
+# Install the shared library
+install(
+  TARGETS gobind
+  LIBRARY DESTINATION lib        # .so, .dylib
+  ARCHIVE DESTINATION lib        # .a (static, optional)
+  RUNTIME DESTINATION bin        # for Windows .dll, optional
+)
+
+# TODO: For fetchcontent:
 # For FetchContent use, add these configuration options
 # If you're using FetchContent, this can be included by other projects
 #include(GNUInstallDirs)

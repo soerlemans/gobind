@@ -7,6 +7,7 @@ Build using the following:
 ```shell
 cmake -S . -B build/ -DGOBIND_EXAMPLES=TRUE
 cmake --build build/ --parallel 4
+sudo cmake --install build --prefix /usr/local
 ```
 
 Then install a helper CLI program for interpreting shared libraries generated using `gobind`:
