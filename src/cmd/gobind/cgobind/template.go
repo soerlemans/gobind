@@ -18,8 +18,10 @@ import (
 	"os"
 	"text/template"
 
-	_ "github.com/soerlemans/gobind/src/cmd/gobind/cgobind/c_wrapper"
+	//_ "github.com/soerlemans/gobind/src/cmd/gobind/cgobind/c_wrapper"
+
 	"github.com/soerlemans/gobind/src/cmd/gobind/util"
+	_ "github.com/soerlemans/gobind/src/lib/cgobind"
 )
 
 // TODO: Figure this out.
@@ -29,7 +31,8 @@ import (
 const (
 	MODULE_TEMPLATE = `package {{.Package}}
 /*
-#cgo LDFLAGS: -ldl -I/usr/local/include -L/usr/local/lib -lgobind
+#cgo CFLAGS: -I/usr/local/include
+#cgo LDFLAGS: -L/usr/local/lib -lgobind -ldl
 
 // C wrapper includes:
 #include "cgobind.h"
