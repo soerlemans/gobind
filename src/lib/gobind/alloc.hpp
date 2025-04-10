@@ -16,9 +16,7 @@ inline auto malloc(const std::size_t t_capacity = 1) -> T*
 {
   const auto size{sizeof(T) * t_capacity};
 
-  std::cout << size << '\n';
-
-  // assert(size != 0 && "Error: gobind::malloc() size == 0.");
+  assert(size != 0 && "Error: gobind::malloc() size == 0.");
 
   return (T*)std::malloc(size);
 }

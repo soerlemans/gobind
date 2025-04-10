@@ -56,7 +56,25 @@ auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
   const auto ret{sym_identify<Ret>()};
   const auto params{args_identify<Args...>()};
 
+  const auto size{params.size()};
+
+  GobindFunction fn{};
+  fn.m_name = t_name;
+  fn.m_fn = (VoidFnPtr)t_fn;
+  fn.m_return_type = ret;
+
+  // TODO: make params setting more elegant.
+  if(size > 0) {
+    fn.m_params = gobind::malloc<GobindType>(size);
+  } else {
+    fn.m_params = nullptr;
+  }
+
+  fn.m_params_size = size;
+
+  auto index{0};
   for(auto&& sym : params) {
+    //FIXME: lazy logging.
     // clang-format off
     std::cout << "Name: " << t_name
 	      << " Param: " << ((sym.m_constant) ? "const " : "" )
@@ -64,16 +82,10 @@ auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 	      << ' ' << ((sym.m_pointer > 0) ? "*" : "")
 	      << '\n';
     // clang-format on
+
+    fn.m_params[index] = sym;
+    index++;
   }
-
-  const auto size{params.size()};
-
-  GobindFunction fn{};
-  fn.m_name = t_name;
-  fn.m_fn = (VoidFnPtr)t_fn;
-  fn.m_return_type = ret;
-  fn.m_params = gobind::malloc<GobindType>(size);
-  fn.m_params_size = size;
 
   m_fn_list.push_back(std::move(fn));
 

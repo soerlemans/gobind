@@ -1,8 +1,11 @@
-#ifndef CGOBIND_WRAPPER_H
-#define CGOBIND_WRAPPER_H
+#ifndef CGOBIND_HELPER_H
+#define CGOBIND_HELPER_H
 
 /*!
  * @file
+ *
+ * This file is intended to be used by the gobind command cgobind package.
+ * In here is everything needed for 
  */
 
 // Library Includes:
@@ -17,4 +20,4 @@ GobindRegistery* call_registered_modules(void* t_func);
 GobindModule* call_gobind_module_init(void* t_func);
 const char* call_gtype2str(void* t_func, const GType t_type);
 
-#endif // CGOBIND_WRAPPER_H
+#endif // CGOBIND_HELPER_H

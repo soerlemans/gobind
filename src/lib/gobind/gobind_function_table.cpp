@@ -102,7 +102,10 @@ void gobind_function_table_free(GobindFunctionTable** t_fn_table)
   // Free gobind type array, function table array and the the struct itself.
   for(size_t index{0}; index < size; index++) {
     auto& params{functions[index].m_params};
-    std::free(params);
+
+    if(params) {
+      std::free(params);
+    }
   }
 
   std::free(fn_table_ptr->m_functions);

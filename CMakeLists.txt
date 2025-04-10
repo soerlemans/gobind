@@ -14,10 +14,19 @@ include(FetchContent)
 
 # Create target.
 set(TARGET_GOBIND ${PROJECT_NAME})
+set(TARGET_CGOBIND "cgobind")
 
 # Create an alias for better usage
 add_library(
   ${TARGET_GOBIND} SHARED
+)
+
+add_library(
+  ${TARGET_CGOBIND} SHARED
+)
+target_link_libraries(
+  ${TARGET_CGOBIND}
+  PRIVATE dl
 )
 
 add_library(
@@ -55,6 +64,12 @@ install(
 )
 
 install(
+  DIRECTORY src/lib/cgobind
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.h"
+)
+
+install(
   DIRECTORY src/lib/gobind
   DESTINATION include
   FILES_MATCHING PATTERN "*.hpp"
@@ -62,10 +77,17 @@ install(
 
 # Install the shared library
 install(
-  TARGETS gobind
+  TARGETS ${TARGET_GOBIND}
   LIBRARY DESTINATION lib        # .so, .dylib
   ARCHIVE DESTINATION lib        # .a (static, optional)
   RUNTIME DESTINATION bin        # for Windows .dll, optional
+)
+
+install(
+  TARGETS ${TARGET_CGOBIND}
+  LIBRARY DESTINATION lib        # .so, .dylib
+  ARCHIVE DESTINATION lib        # .a (static lib)
+  RUNTIME DESTINATION bin        # .dll (Windows, optional)
 )
 
 # TODO: For fetchcontent:

@@ -1,10 +1,9 @@
-#include "cgobind_wrapper.h"
+#include "cgobind_helper.h"
 
 // Typedefs:
 typedef void* (*void_fn_ptr)(void);
 typedef GobindRegistery* (*registered_modules_fn_ptr)(void);
 typedef GobindModule* (*gobind_fn_ptr)(void);
-typedef const char* (*cstr_fn_ptr)(void); // TODO: Use.
 typedef const char* (*gtype2str_fn_ptr)(GType);
 
 // Functions:
