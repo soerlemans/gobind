@@ -19,7 +19,7 @@ import (
 	"text/template"
 
 	"github.com/soerlemans/gobind/src/cmd/gobind/util"
-	"github.com/soerlemans/gobind/src/lib/cgobind"
+	_ "github.com/soerlemans/gobind/src/lib/cgobind"
 )
 
 // TODO: Figure this out.
@@ -141,12 +141,12 @@ func (this *TemplateContext) ExtractFunctionData() []FunctionData {
 
 	functions = make([]FunctionData, functionTableSize)
 
-	functionArray := cgobind.CPtr2Array(functionTable.m_functions, functionTable.m_size)
+	functionArray := CPtr2Array(functionTable.m_functions, functionTable.m_size)
 	for index := 0; index < functionTableSize; index++ {
 		function := functionArray[index]
 		functionName := C.GoString(function.m_name)
 
-		functions[index] = FunctionData{functionName, "", ""}
+		functions[index] = FunctionData{functionName, "", "error"}
 	}
 
 	return functions
