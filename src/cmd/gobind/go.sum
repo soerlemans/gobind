@@ -6,8 +6,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154415-ff1f230a8e37 h1:YHQMyNZVt4pJznkb1nFAZYQGLSNey9GtSqingtIAKIU=
-github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154415-ff1f230a8e37/go.mod h1:/BUr+Ek/e6WSrdsqyq6QQ+amxASqiB1je8yiSlT0itw=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154946-2ec762ea4b0c h1:4Hk6zufzkHCfcVQhcFHLEfe9uCd2Z1jttcRZxL+Rxcw=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154946-2ec762ea4b0c/go.mod h1:/BUr+Ek/e6WSrdsqyq6QQ+amxASqiB1je8yiSlT0itw=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=

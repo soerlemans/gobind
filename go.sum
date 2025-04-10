@@ -1,0 +1,11 @@
+github.com/alexflint/go-arg v1.5.1 h1:nBuWUCpuRy0snAG+uIJ6N0UvYxpxA0/ghA/AaHxlT8Y=
+github.com/alexflint/go-arg v1.5.1/go.mod h1:A7vTJzvjoaSTypg4biM5uYNTkJ27SkNTArtYXnlqVO8=
+github.com/alexflint/go-scalar v1.2.0 h1:WR7JPKkeNpnYIOfHRa7ivM21aWAdHD0gEWHCx+WQBRw=
+github.com/alexflint/go-scalar v1.2.0/go.mod h1:LoFvNMqS1CPrMVltza4LvnGKhaSpc3oyLEBUZVhhS2o=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/soerlemans/gobind/src/cmd/gobind v0.0.0-20250409154946-2ec762ea4b0c h1:6nGPMxUtxlWrqGhsBiCrhZD7d5vqgGgBzdpZ7Yoecsg=
+github.com/soerlemans/gobind/src/cmd/gobind v0.0.0-20250409154946-2ec762ea4b0c/go.mod h1:bSQU2zF/+M4yo92B6zTAv0c9MNDVTHOFc6TIfWNkirg=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154946-2ec762ea4b0c h1:4Hk6zufzkHCfcVQhcFHLEfe9uCd2Z1jttcRZxL+Rxcw=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250409154946-2ec762ea4b0c/go.mod h1:/BUr+Ek/e6WSrdsqyq6QQ+amxASqiB1je8yiSlT0itw=
+github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=

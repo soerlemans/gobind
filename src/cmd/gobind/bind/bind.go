@@ -3,17 +3,6 @@ Bindings for interacting with the generated C dynamic library.
 */
 package bind
 
-// TODO: For the cgo part we need to do some more thinking.
-
-/*
-#cgo CFLAGS: -I ../../../lib/
-#cgo LDFLAGS: -ldl
-
-// C Includes:
-#include "cgobind/cgobind_helper.h"
-*/
-import "C"
-
 import (
 	"fmt"
 	"os"
@@ -22,7 +11,6 @@ import (
 	"github.com/soerlemans/gobind/src/lib/cgobind"
 )
 
-// Functions:
 func walkModules(t_handle unsafe.Pointer, t_registeredModules []string, t_libraryPath string, t_outputDir string) error {
 	for _, name := range t_registeredModules {
 		// Obtain the module.
