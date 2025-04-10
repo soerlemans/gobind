@@ -5,8 +5,9 @@ For interfacing with the gobind C library from Golang.
 package cgobind
 
 /*
-#cgo CFLAGS: -I.
+#cgo CFLAGS: -I../
 #cgo LDFLAGS: -ldl
+
 
 // C Includes:
 #include "cgobind_helper.h"
@@ -158,3 +159,7 @@ func CallFunction(t_handle unsafe.Pointer, t_module *C.GobindModule, t_name stri
 	return nil
 }
 */
+
+func HelloWorld() {
+	fmt.Println("Hello World!")
+}

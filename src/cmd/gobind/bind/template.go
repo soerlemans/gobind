@@ -41,7 +41,8 @@ import "C"
 import (
         "log"
 
-	"github.com/soerlemans/gobind/src/lib/cgobind"
+	_ "github.com/soerlemans/gobind/src/lib/cgobind"
+	"github.com/soerlemans/gobind/src/cmd/gobind/bind"
 )
 
 // Globals:
@@ -49,19 +50,19 @@ var exportedFunctions = make(map[string]C.GobindFunction)
 
 // Functions:
 func init() {
-    handle, err := cgobind.DlOpen("{{.LibraryPath}}")
+    handle, err := bind.DlOpen("{{.LibraryPath}}")
     if err != nil {
 	log.Fatalln(err)
         return
     }
 
     // Get names of the modules that where registered.
-    registeredModules, err := cgobind.RegisteredModules(handle)
+    registeredModules, err := bind.RegisteredModules(handle)
     if err != nil {
 	log.Fatalln(err)
         return
     }
-    defer cgobind.DlClose(handle)
+    defer bind.DlClose(handle)
 
     for _, name := range registeredModules {
        if name != "{{.Package}}" {
@@ -69,14 +70,14 @@ func init() {
        }
 
        // Obtain the module.
-       module, err := cgobind.InitModule(handle, name)
+       module, err := bind.InitModule(handle, name)
        if err != nil {
            log.Fatalln(err)
            return
        }
 
 	fn_table := module.m_fn_table
-	functions := cgobind.CPtr2Array(fn_table.m_functions, fn_table.m_size)
+	functions := bind.CPtr2Array(fn_table.m_functions, fn_table.m_size)
 	for index := 0; index < int(fn_table.m_size); index++ {
 		function := functions[index]
 		functionName := C.GoString(function.m_name)
