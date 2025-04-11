@@ -15,6 +15,7 @@ import "C"
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 
 	_ "embed"
@@ -79,9 +80,16 @@ func (this *TemplateContext) ExtractTemplateData() (TemplateData, error) {
 		return data, err
 	}
 
+	libraryDir := filepath.Dir(absPath)
+
+	// Get base path and trim lib and .so.
+	libraryName := filepath.Base(absPath)
+	trimmed := strings.TrimPrefix(libraryName, "lib")
+	trimmed = strings.TrimSuffix(trimmed, ".so")
+
 	data.Package = C.GoString(this.Module.m_name)
-	data.LibraryDir = filepath.Dir(absPath)
-	data.LibraryName = filepath.Base(absPath)
+	data.LibraryDir = libraryDir
+	data.LibraryName = trimmed
 	data.Functions = this.ExtractFunctionData()
 
 	return data, err
