@@ -8,6 +8,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250410180030-69db32cea8c4 h1:ZZXPwvIcyOKk1JTcaW254usVgZIS4ycOeRnp5moGSb0=
 github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250410180030-69db32cea8c4/go.mod h1:sbp2WP9Qx1Zm96o4mEBdBAZYg+LXihRoyXYB/rJAePg=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250411132946-d28077c557c3 h1:LAyJEhgKY+8f14vNZ8FonoxeBqWn6MIoyvztNSo3TUg=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250411132946-d28077c557c3/go.mod h1:/BUr+Ek/e6WSrdsqyq6QQ+amxASqiB1je8yiSlT0itw=
 github.com/soerlemans/gobind/src/lib/go_util v0.0.0-20250411132807-20231743d6ce h1:D20UnGS5P7jQJvd+wytxLHA4EuhwOqB7/cZY6fwwM90=
 github.com/soerlemans/gobind/src/lib/go_util v0.0.0-20250411132807-20231743d6ce/go.mod h1:IVJOjRga3ld07AqwvF2IxZDhv5RK0D66JgaA65JtD30=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
