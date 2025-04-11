@@ -5,7 +5,7 @@ package {{.Package}}
 
 /*
 #cgo CFLAGS: -I/usr/local/include
-#cgo LDFLAGS: -Wl,-rpath,/usr/local/lib -Wl,-rpath,"{{.LibraryDir}}" -L/usr/local/lib -L"{{.LibraryDir}}" -ldl -lcgobind -lgobind -l{{.Package}}
+#cgo LDFLAGS: -Wl,-rpath,/usr/local/lib -Wl,-rpath,"{{.LibraryDir}}" -L/usr/local/lib -L"{{.LibraryDir}}" -ldl -lcgobind -lgobind -l{{.LibraryPath}}
 
 // C wrapper includes:
 #include "cgobind/cgobind_helper.h"

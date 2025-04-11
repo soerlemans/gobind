@@ -36,9 +36,10 @@ type FunctionData struct {
 }
 
 type TemplateData struct {
-	Package    string
-	LibraryDir string
-	Functions  []FunctionData
+	Package     string
+	LibraryDir  string
+	LibraryName string
+	Functions   []FunctionData
 }
 
 // Struct TemplateContext:
@@ -78,11 +79,9 @@ func (this *TemplateContext) ExtractTemplateData() (TemplateData, error) {
 		return data, err
 	}
 
-	// Get the directory part of the absolute path.
-	libraryDir := filepath.Dir(absPath)
-
 	data.Package = C.GoString(this.Module.m_name)
-	data.LibraryDir = libraryDir
+	data.LibraryDir = filepath.Dir(absPath)
+	data.LibraryName = filepath.Base(absPath)
 	data.Functions = this.ExtractFunctionData()
 
 	return data, err
