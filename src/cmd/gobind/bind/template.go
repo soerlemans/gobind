@@ -12,105 +12,22 @@ package bind
 */
 import "C"
 
-// Regular Imports:
 import (
 	//"unsafe"
 	"os"
 	"text/template"
 
-	"github.com/soerlemans/gobind/src/cmd/gobind/util"
+
+	util "github.com/soerlemans/gobind/src/lib/go_util"
+	_ "embed"
 	_ "github.com/soerlemans/gobind/src/lib/cgobind"
 )
 
 // TODO: Figure this out.
 // #cgo CFLAGS: -I {{OutputDir}}/include/
 
-// Globals:
-const (
-	MODULE_TEMPLATE = `package {{.Package}}
-
-/*
-#cgo CFLAGS: -I/usr/local/include
-#cgo LDFLAGS: -L/usr/local/lib -ldl -lcgobind -lgobind
-
-// C wrapper includes:
-#include "cgobind/cgobind.h"
-*/
-import "C"
-
-import (
-        "log"
-
-	_ "github.com/soerlemans/gobind/src/lib/cgobind"
-	"github.com/soerlemans/gobind/src/cmd/gobind/bind"
-)
-
-// Globals:
-var exportedFunctions = make(map[string]C.GobindFunction)
-
-// Functions:
-func init() {
-    handle, err := bind.DlOpen("{{.LibraryPath}}")
-    if err != nil {
-	log.Fatalln(err)
-        return
-    }
-
-    // Get names of the modules that where registered.
-    registeredModules, err := bind.RegisteredModules(handle)
-    if err != nil {
-	log.Fatalln(err)
-        return
-    }
-    defer bind.DlClose(handle)
-
-    for _, name := range registeredModules {
-       if name != "{{.Package}}" {
-           continue
-       }
-
-       // Obtain the module.
-       module, err := bind.InitModule(handle, name)
-       if err != nil {
-           log.Fatalln(err)
-           return
-       }
-
-	fn_table := module.m_fn_table
-	functions := bind.CPtr2Array(fn_table.m_functions, fn_table.m_size)
-	for index := 0; index < int(fn_table.m_size); index++ {
-		function := functions[index]
-		functionName := C.GoString(function.m_name)
-
-                exportedFunctions[functionName] = function
-
-		// sym, err := DlSym(handle, "gtype2str")
-		// if err != nil {
-                // log.Fatalln(err)
-		// 	return
-		// }
-
-		// C.call_gtype2str(sym, function.m_return_type.m_type)
-		// go_str := C.GoString(rt_str)
-
-		// util.Logf("Return type: %T", function.m_return_type.m_type)
-
-		// util.Logf("Calling function[%d]: %s", index, functionName)
-		// C.call_void_func(unsafe.Pointer(function.m_fn))
-	}
-    }
-
-}
-
-{{range .Functions}}
-func {{.Name}}({{.Params}}) {{.ReturnType}} {
-    // Load the shared library handle.
-
-    return nil
-}
-{{end}}
-`
-)
+//go:embed module.go.tmpl
+var MODULE_TEMPLATE string
 
 // Structs:
 type FunctionData struct {

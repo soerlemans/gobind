@@ -7,7 +7,6 @@ package bind
 #cgo CFLAGS: -I../../../lib
 #cgo LDFLAGS: -ldl
 
-
 // C Includes:
 #include "cgobind/cgobind_helper.h"
 */
@@ -19,7 +18,7 @@ import (
 	"os"
 	"unsafe"
 
-	"github.com/soerlemans/gobind/src/cmd/gobind/util"
+	util "github.com/soerlemans/gobind/src/lib/go_util"
 	_ "github.com/soerlemans/gobind/src/lib/cgobind"
 )
 

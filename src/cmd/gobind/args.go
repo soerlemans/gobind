@@ -4,8 +4,9 @@ package main
 import (
 	"fmt"
 	"github.com/alexflint/go-arg"
-	"github.com/soerlemans/gobind/src/cmd/gobind/util"
 	"os"
+
+	util "github.com/soerlemans/gobind/src/lib/go_util"
 )
 
 // Arguments Struct:

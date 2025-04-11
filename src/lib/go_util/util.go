@@ -1,7 +1,7 @@
 /*
 Utility functions for gobind.
 */
-package util
+package go_util
 
 // Regular Imports:
 import (

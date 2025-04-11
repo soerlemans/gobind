@@ -5,7 +5,8 @@ package main
 
 import (
 	"github.com/soerlemans/gobind/src/cmd/gobind/bind"
-	"github.com/soerlemans/gobind/src/cmd/gobind/util"
+
+	util "github.com/soerlemans/gobind/src/lib/go_util"
 )
 
 func main() {
