@@ -190,6 +190,7 @@ func Bind(t_libraryPath string, t_outputDir string) error {
 	// Load the shared library handle.
 	handle, err := DlOpen(t_libraryPath)
 	if err != nil {
+		util.Logf("Failed to open: %s", t_libraryPath)
 		return err
 	}
 
