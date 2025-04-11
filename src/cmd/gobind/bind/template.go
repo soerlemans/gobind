@@ -13,14 +13,13 @@ package bind
 import "C"
 
 import (
-	//"unsafe"
 	"os"
+	"path/filepath"
 	"text/template"
 
-
-	util "github.com/soerlemans/gobind/src/lib/go_util"
 	_ "embed"
 	_ "github.com/soerlemans/gobind/src/lib/cgobind"
+	util "github.com/soerlemans/gobind/src/lib/go_util"
 )
 
 // TODO: Figure this out.
@@ -37,9 +36,9 @@ type FunctionData struct {
 }
 
 type TemplateData struct {
-	Package     string
-	LibraryPath string
-	Functions   []FunctionData
+	Package    string
+	LibraryDir string
+	Functions  []FunctionData
 }
 
 // Struct TemplateContext:
@@ -70,16 +69,30 @@ func (this *TemplateContext) ExtractFunctionData() []FunctionData {
 	return functions
 }
 
-func (this *TemplateContext) ExtractTemplateData() TemplateData {
-	moduleName := C.GoString(this.Module.m_name)
-	libraryPath := this.LibraryPath
-	functionData := this.ExtractFunctionData()
+func (this *TemplateContext) ExtractTemplateData() (TemplateData, error) {
+	var data TemplateData
 
-	return TemplateData{moduleName, libraryPath, functionData}
+	// Get the absolute path of the library.
+	absPath, err := filepath.Abs(this.LibraryPath)
+	if err != nil {
+		return data, err
+	}
+
+	// Get the directory part of the absolute path.
+	libraryDir := filepath.Dir(absPath)
+
+	data.Package = C.GoString(this.Module.m_name)
+	data.LibraryDir = libraryDir
+	data.Functions = this.ExtractFunctionData()
+
+	return data, err
 }
 
 func (this *TemplateContext) Write() error {
-	data := this.ExtractTemplateData()
+	data, err := this.ExtractTemplateData()
+	if err != nil {
+		return err
+	}
 
 	return this.Tmpl.Execute(this.File, data)
 }
