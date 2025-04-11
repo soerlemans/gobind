@@ -1,0 +1,6 @@
+github.com/soerlemans/gobind/src/cmd/gobind v0.0.0-20250409154946-2ec762ea4b0c h1:6nGPMxUtxlWrqGhsBiCrhZD7d5vqgGgBzdpZ7Yoecsg=
+github.com/soerlemans/gobind/src/cmd/gobind v0.0.0-20250409154946-2ec762ea4b0c/go.mod h1:bSQU2zF/+M4yo92B6zTAv0c9MNDVTHOFc6TIfWNkirg=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250410190321-c178b0dca909 h1:nTeYJhTMY2qM/fiA9cHfF2SnZwGNqF9KukKydYG9dlg=
+github.com/soerlemans/gobind/src/lib/cgobind v0.0.0-20250410190321-c178b0dca909/go.mod h1:sbp2WP9Qx1Zm96o4mEBdBAZYg+LXihRoyXYB/rJAePg=
+github.com/soerlemans/gobind/src/lib/go_util v0.0.0-20250411132435-1e1746679d6d h1:HNwtymooiHbnFMHpZrykjjdDxh0J+fkI7K32L7lgb5g=
+github.com/soerlemans/gobind/src/lib/go_util v0.0.0-20250411132435-1e1746679d6d/go.mod h1:IVJOjRga3ld07AqwvF2IxZDhv5RK0D66JgaA65JtD30=
