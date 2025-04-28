@@ -18,8 +18,8 @@ import (
 	"os"
 	"unsafe"
 
-	util "github.com/soerlemans/gobind/src/lib/go_util"
 	_ "github.com/soerlemans/gobind/src/lib/cgobind"
+	util "github.com/soerlemans/gobind/src/lib/go_util"
 )
 
 // Globals:
@@ -123,6 +123,21 @@ func InitModule(t_handle unsafe.Pointer, t_name string) (*C.GobindModule, error)
 	return module, err
 }
 
+func PrettyPrintModule(t_handle unsafe.Pointer, t_module *C.GobindModule) error {
+	sym, err := DlSym(t_handle, "gobind_module_pprint")
+	if err != nil {
+		return err
+	}
+
+	// Need to cast, to satisfy type system.
+	modulePtr := unsafe.Pointer(t_module)
+
+	// Pretty print the gobind module.
+	C.call_gobind_module_pprint(sym, modulePtr)
+
+	return nil
+}
+
 /*
 func freeModule(t_handle, unsafe.Pointer) error {
 sym, err := DlSym(t_handle, "gobind_module_free")
@@ -167,6 +182,9 @@ func walkModules(t_handle unsafe.Pointer, t_registeredModules []string, t_librar
 		if err != nil {
 			return err
 		}
+
+		// Print the module for good measure.
+		PrettyPrintModule(t_handle, module)
 
 		// FIXME: Free the module.
 		// defer freeModule(module)

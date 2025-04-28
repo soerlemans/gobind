@@ -3,7 +3,8 @@
 // Typedefs:
 typedef void* (*void_fn_ptr)(void);
 typedef GobindRegistery* (*registered_modules_fn_ptr)(void);
-typedef GobindModule* (*gobind_fn_ptr)(void);
+typedef GobindModule* (*gobind_module_init_fn_ptr)(void);
+typedef void (*gobind_module_pprint_fn_ptr)(GobindModule*);
 typedef const char* (*gtype2str_fn_ptr)(GType);
 
 // Functions:
@@ -19,7 +20,12 @@ GobindRegistery* call_registered_modules(void* t_func)
 
 GobindModule* call_gobind_module_init(void* t_func)
 {
-  return ((gobind_fn_ptr)t_func)();
+  return ((gobind_module_init_fn_ptr)t_func)();
+}
+
+void call_gobind_module_pprint(void* t_func, void* t_module)
+{
+  return ((gobind_module_pprint_fn_ptr)t_func)(t_module);
 }
 
 const char* call_gtype2str(void* t_func, const GType t_type)

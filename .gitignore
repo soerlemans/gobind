@@ -62,9 +62,10 @@ gbmod/
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# We need the go.work to build locally, without fetching from github.
 # Go workspace file
-go.work
-go.work.sum
+# go.work
+# go.work.sum
 
 # env file
 .env
