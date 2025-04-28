@@ -68,6 +68,7 @@ func init() {
 		}
 }
 
+{{/* Meat of the template, generates wrappers for C/C++ functions. */}}
 {{range .Functions}}
 func {{.Name}}({{.Params}}) {{.ReturnType}} {
 	  // Call function inside of exportedFunctions map.
