@@ -136,6 +136,9 @@ void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table)
   }
 
   const auto fn_size{t_fn_table->m_size};
+
+  std::cout << t_fn_table->m_capacity << '\n';
+
   for(size_t index{0}; index < fn_size; index++) {
     std::cout << "# Entry " << index << '/' << fn_size << ".\n";
     const auto& fn{t_fn_table->m_functions[index]};

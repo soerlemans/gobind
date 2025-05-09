@@ -33,7 +33,7 @@ var MODULE_TEMPLATE string
 // Contains the pairs for C types and Golang types
 type ParameterData struct {
 	GoType string
-	CType string
+	CType  string
 }
 
 // Contains all data necessary to create a wrapper for a function.
@@ -45,9 +45,9 @@ type FunctionData struct {
 
 // Contains toplevel data for the Golang template module.
 type TemplateData struct {
-	Package     string `Golang package name to use.`
-	LibraryDir  string `Directory to add to the linker path using -L.`
-	LibraryName string `Library name to link against using -l.`
+	Package     string         `Golang package name to use.`
+	LibraryDir  string         `Directory to add to the linker path using -L.`
+	LibraryName string         `Library name to link against using -l.`
 	Functions   []FunctionData `Looped through to create the wrapper functions.`
 }
 
