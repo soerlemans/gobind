@@ -121,6 +121,11 @@ void gobind_function_pprint(const GobindFunction* t_fn)
     std::cerr << "GobindFunction nil!";
     return;
   }
+
+  // clang-format off
+	std::cout << "\t" << t_fn->m_name << '\n';
+
+  // clang-format on
 }
 
 void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table)
@@ -139,4 +144,3 @@ void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table)
     std::cout << '\n';
   }
 }
-
