@@ -90,6 +90,27 @@ Error gobind_function_table_add(GobindFunctionTable* t_fn_table,
   return error;
 }
 
+void gobind_function_pprint(const GobindFunction* t_fn)
+{
+  if(!t_fn) {
+    std::cerr << "GobindFunction nil!";
+    return;
+  }
+}
+
+void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table)
+{
+  if(!t_fn_table) {
+    std::cerr << "GobindFunctionTable nil!";
+    return;
+  }
+
+  for(size_t index{0}; index < t_fn_table->m_size; index++) {
+    const auto& fn{t_fn_table->m_functions[index]};
+    gobind_function_pprint(&fn);
+  }
+}
+
 void gobind_function_table_free(GobindFunctionTable** t_fn_table)
 {
   // FIXME: Check if t_fn_table is nullptr (nullptr dereference).

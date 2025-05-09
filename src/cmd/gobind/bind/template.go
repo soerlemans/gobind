@@ -30,10 +30,10 @@ import (
 var MODULE_TEMPLATE string
 
 // Structs:
-// Contains all data necessary to create 
+// Contains the pairs for C types and Golang types
 type ParameterData struct {
-	Name string
-	Type string
+	GoType string
+	CType string
 }
 
 // Contains all data necessary to create a wrapper for a function.

@@ -53,6 +53,10 @@ Error gobind_function_table_resize(GobindFunctionTable* t_fn_table,
                                    size_t t_size);
 Error gobind_function_table_add(GobindFunctionTable* t_fn_table,
                                 GobindFunction* t_function);
+
+void gobind_function_pprint(const GobindFunction* t_fn);
+void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table);
+
 void gobind_function_table_free(GobindFunctionTable** t_fn_table);
 
 #ifdef __cplusplus

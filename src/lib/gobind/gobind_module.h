@@ -1,5 +1,5 @@
-#ifndef GOLANG_MODULE_HPP
-#define GOLANG_MODULE_HPP
+#ifndef GOBIND_MODULE_HPP
+#define GOBIND_MODULE_HPP
 
 /*!
  * @file
@@ -37,7 +37,7 @@ void gobind_module_invalid_name(const char* t_name);
  * Pretty print everything in the @ref GobindModule.
  * @note useful for debugging generated libraries, from golang.
  */
-void gobind_module_pprint(GobindModule* t_module);
+void gobind_module_pprint(const GobindModule* t_module);
 
 void gobind_module_free(GobindModule** t_module);
 
@@ -45,4 +45,4 @@ void gobind_module_free(GobindModule** t_module);
 }
 #endif /* __cplusplus */
 
-#endif // GOLANG_MODULE_HPP
+#endif // GOBIND_MODULE_HPP
