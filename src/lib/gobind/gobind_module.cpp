@@ -41,20 +41,6 @@ Error gobind_module_create(GobindModule** t_module, const char* t_name)
   return error;
 }
 
-// TODO: One day clean this code up, maybe use an actual logging library.
-void gobind_module_pprint(const GobindModule* t_module)
-{
-  if(!t_module) {
-    std::cerr << "GobindModule nil!";
-    return;
-  }
-
-  const auto& [name, fn_table] = *t_module;
-
-  std::cout << "# GobindModule: " << name << '\n';
-  gobind_function_table_pprint((const GobindFunctionTable*)&fn_table);
-}
-
 void gobind_module_free(GobindModule** t_module)
 {
   // FIXME: Check if t_module is nullptr (nullptr dereference).
@@ -65,4 +51,19 @@ void gobind_module_free(GobindModule** t_module)
   std::free(module_ptr);
 
   module_ptr = nullptr;
+}
+
+// Utility:
+// TODO: One day clean this code up, maybe use an actual logging library.
+void gobind_module_pprint(const GobindModule* t_module)
+{
+  if(!t_module) {
+    std::cerr << "GobindModule nil!";
+    return;
+  }
+
+  const auto& [name, fn_table] = *t_module;
+
+  std::cout << "# GobindModule: " << std::quoted(name) << ".\n";
+  gobind_function_table_pprint((const GobindFunctionTable*)&fn_table);
 }

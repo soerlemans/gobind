@@ -32,14 +32,15 @@ typedef struct {
 Error gobind_module_create(GobindModule** t_module, const char* t_name);
 void gobind_module_invalid_name(const char* t_name);
 
-// One day clean the pretty print code up, maybe use an actual logging utility.
+void gobind_module_free(GobindModule** t_module);
+
+// Utility:
+// FIXME: One day clean the pretty print code up, maybe use actual logging.
 /*!
  * Pretty print everything in the @ref GobindModule.
  * @note useful for debugging generated libraries, from golang.
  */
 void gobind_module_pprint(const GobindModule* t_module);
-
-void gobind_module_free(GobindModule** t_module);
 
 #ifdef __cplusplus
 }

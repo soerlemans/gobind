@@ -74,13 +74,15 @@ auto GobindModuleFactory::def(const char* t_name, Ret (*t_fn)(Args...)) -> Error
 
   auto index{0};
   for(auto&& sym : params) {
-    //FIXME: lazy logging.
+    // FIXME: lazy logging.
     // clang-format off
+		/*
     std::cout << "Name: " << t_name
 	      << " Param: " << ((sym.m_constant) ? "const " : "" )
 	      << gtype2str(sym.m_type)
 	      << ' ' << ((sym.m_pointer > 0) ? "*" : "")
 	      << '\n';
+				*/
     // clang-format on
 
     fn.m_params[index] = sym;
