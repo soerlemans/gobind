@@ -6,41 +6,19 @@
 // Local Includes:
 #include "alloc.hpp"
 
-/*
-// Internal:
-namespace {
-template<typename T>
-auto reallocate(T** array, size_t& capacity) -> void
-{
-  if(new_capacity <= capacity)
-    return; // No need to shrink
-
-  T* new_array = new T[new_capacity];
-
-  // Copy existing elements to the new array
-  std::memcpy(new_array, array, capacity * sizeof(T));
-
-  // Delete the old array
-  delete[] array;
-
-  // Update pointer and capacity
-  array = new_array;
-  capacity = new_capacity;
-}
-} // namespace
-*/
-
-
 // Functions:
 Error gobind_function_table_create(GobindFunctionTable** t_fn_table)
 {
   using gobind::malloc;
 
+  // Arbitrary default starting capacity.
+  constexpr auto default_capacity{8};
+
   auto& ptr{*t_fn_table};
-  ptr = malloc<GobindFunctionTable>();
+  ptr = malloc<GobindFunctionTable>(default_capacity);
   ptr->m_functions = malloc<GobindFunction>();
   ptr->m_size = 0;
-  ptr->m_capacity = 0;
+  ptr->m_capacity = default_capacity;
 
   return {};
 }
@@ -137,7 +115,7 @@ void gobind_function_table_pprint(const GobindFunctionTable* t_fn_table)
 
   const auto fn_size{t_fn_table->m_size};
 
-  std::cout << t_fn_table->m_capacity << '\n';
+  std::cout << "Cap: " << t_fn_table->m_capacity << '\n';
 
   for(size_t index{0}; index < fn_size; index++) {
     std::cout << "# Entry " << index << '/' << fn_size << ".\n";

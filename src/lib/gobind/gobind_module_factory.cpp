@@ -23,7 +23,7 @@ auto GobindModuleFactory::compile_module() -> void
   const auto size{m_fn_list.size()};
   auto& fn_table{m_module->m_fn_table};
 
-  // Resize too the size we need as we already know the size.
+  // Resize to the size we need as we already have computed the size.
   gobind_function_table_resize(fn_table, size);
 
   // TODO: We could be more efficient by doing a raw copy.
