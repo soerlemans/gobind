@@ -46,7 +46,7 @@ add_subdirectory(src)
 set_target_properties(
 	${TARGET_GOBIND}
 	PROPERTIES
-	CXX_STANDARD 20
+	CXX_STANDARD 17
 )
 
 # Define include directories for headers

@@ -30,25 +30,34 @@ import (
 var MODULE_TEMPLATE string
 
 // Structs:
-type FunctionData struct {
-	Name       string
-	Params     string
-	ReturnType string
+// Contains the pairs for C types and Golang types
+type ParameterData struct {
+	GoType string
+	CType  string
 }
 
+// Contains all data necessary to create a wrapper for a function.
+type FunctionData struct {
+	Name       string `Name of the function.`
+	Params     string `Parameters`
+	ReturnType string `Golang return type of the function.`
+}
+
+// Contains toplevel data for the Golang template module.
 type TemplateData struct {
-	Package     string
-	LibraryDir  string
-	LibraryName string
-	Functions   []FunctionData
+	Package     string         `Golang package name to use.`
+	LibraryDir  string         `Directory to add to the linker path using -L.`
+	LibraryName string         `Library name to link against using -l.`
+	Functions   []FunctionData `Looped through to create the wrapper functions.`
 }
 
 // Struct TemplateContext:
+// Contains all the context needed for executing the wrapper module template.
 type TemplateContext struct {
-	Module      *C.GobindModule    ``
-	LibraryPath string             ``
-	File        *os.File           ``
-	Tmpl        *template.Template ``
+	Module      *C.GobindModule    `GobindModule struct to unpack and create bindings for.`
+	LibraryPath string             `Absolute path to the library.`
+	File        *os.File           `File to execute template to.`
+	Tmpl        *template.Template `Store the template in memory.`
 }
 
 // Methods TemplateContext:

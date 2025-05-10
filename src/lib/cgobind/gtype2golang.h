@@ -1,5 +1,5 @@
-#ifndef GTYP2GO_H
-#define GTYP2GO_H
+#ifndef GTYPE2GOLANG_H
+#define GTYPE2GOLANG_H
 
 /*!
  * @file
@@ -9,6 +9,10 @@
 #include <gobind/gobind.h>
 
 // Functions:
+//! Convert a @ref GType to a Golang native type.
 const char* gtype2golang(GType t_gtype);
 
-#endif // GTYP2GO_H
+//! Convert a @ref GType to a Golang cgo type.
+const char* gtype2cgotype(GType t_gtype);
+
+#endif // GTYPE2GOLANG_H

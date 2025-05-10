@@ -68,8 +68,9 @@ func init() {
 		}
 }
 
+{{/* Meat of the template, generates wrappers for C/C++ functions. */}}
 {{range .Functions}}
-func {{.Name}}({{.Params}}) {{.ReturnType}} {
+func {{.Name}}() {{.ReturnType}} {
 	  // Call function inside of exportedFunctions map.
 	  fnStruct := exportedFunctions["{{.Name}}"]
 	  fnPtr := unsafe.Pointer(fnStruct.m_fn)

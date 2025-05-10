@@ -7,6 +7,9 @@
 #include <iostream>
 #include <string_view>
 
+// C Includes:
+#include "gobind_function_table.h"
+
 // Local Includes:
 #include "alloc.hpp"
 #include "gobind_module_factory.hpp"
@@ -48,4 +51,19 @@ void gobind_module_free(GobindModule** t_module)
   std::free(module_ptr);
 
   module_ptr = nullptr;
+}
+
+// Utility:
+// TODO: One day clean this code up, maybe use an actual logging library.
+void gobind_module_pprint(const GobindModule* t_module)
+{
+  if(!t_module) {
+    std::cerr << "GobindModule nil!";
+    return;
+  }
+
+  const auto& [name, fn_table] = *t_module;
+
+  std::cout << "# GobindModule: " << std::quoted(name) << ".\n";
+  gobind_function_table_pprint((const GobindFunctionTable*)&fn_table);
 }
